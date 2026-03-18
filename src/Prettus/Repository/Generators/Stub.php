@@ -14,7 +14,7 @@ class Stub
      *
      * @var null|string
      */
-    protected static $basePath = null;
+    protected static $basePath;
     /**
      * The stub path.
      *
@@ -32,7 +32,6 @@ class Stub
      * The contructor.
      *
      * @param string $path
-     * @param array  $replaces
      */
     public function __construct($path, array $replaces = [])
     {
@@ -44,11 +43,9 @@ class Stub
      * Create new self instance.
      *
      * @param  string $path
-     * @param  array  $replaces
      *
-     * @return self
      */
-    public static function create($path, array $replaces = [])
+    public static function create($path, array $replaces = []): self
     {
         return new static($path, $replaces);
     }
@@ -57,10 +54,8 @@ class Stub
      * Set base path.
      *
      * @param  string $path
-     *
-     * @return void
      */
-    public static function setBasePath($path)
+    public static function setBasePath($path): void
     {
         static::$basePath = $path;
     }
@@ -68,11 +63,10 @@ class Stub
     /**
      * Set replacements array.
      *
-     * @param  array $replaces
      *
      * @return $this
      */
-    public function replace(array $replaces = [])
+    public function replace(array $replaces = []): self
     {
         $this->replaces = $replaces;
 
@@ -91,10 +85,8 @@ class Stub
 
     /**
      * Handle magic method __toString.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->render();
     }
@@ -126,10 +118,8 @@ class Stub
 
     /**
      * Get stub path.
-     *
-     * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return static::$basePath . $this->path;
     }
@@ -138,10 +128,8 @@ class Stub
      * Set stub path.
      *
      * @param string $path
-     *
-     * @return self
      */
-    public function setPath($path)
+    public function setPath($path): self
     {
         $this->path = $path;
 

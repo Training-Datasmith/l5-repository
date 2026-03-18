@@ -16,11 +16,9 @@ trait PresentableTrait
     /**
      * @var PresenterInterface
      */
-    protected $presenter = null;
+    protected $presenter;
 
     /**
-     * @param \Prettus\Repository\Contracts\PresenterInterface $presenter
-     *
      * @return $this
      */
     public function setPresenter(PresenterInterface $presenter)
@@ -32,7 +30,6 @@ trait PresentableTrait
 
     /**
      * @param      $key
-     * @param null $default
      *
      * @return mixed|null
      */
@@ -47,10 +44,7 @@ trait PresentableTrait
         return $default;
     }
 
-    /**
-     * @return bool
-     */
-    protected function hasPresenter()
+    protected function hasPresenter(): bool
     {
         return isset($this->presenter) && $this->presenter instanceof PresenterInterface;
     }

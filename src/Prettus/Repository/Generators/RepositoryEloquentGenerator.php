@@ -20,30 +20,24 @@ class RepositoryEloquentGenerator extends Generator
 
     /**
      * Get root namespace.
-     *
-     * @return string
      */
-    public function getRootNamespace()
+    public function getRootNamespace(): string
     {
         return parent::getRootNamespace() . parent::getConfigGeneratorClassPath($this->getPathConfigNode());
     }
 
     /**
      * Get generator path config node.
-     *
-     * @return string
      */
-    public function getPathConfigNode()
+    public function getPathConfigNode(): string
     {
         return 'repositories';
     }
 
     /**
      * Get destination path for generated file.
-     *
-     * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->getBasePath() . '/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '/' . $this->getName() . 'RepositoryEloquent.php';
     }
@@ -60,10 +54,8 @@ class RepositoryEloquentGenerator extends Generator
 
     /**
      * Get array replacements.
-     *
-     * @return array
      */
-    public function getReplacements()
+    public function getReplacements(): array
     {
         $repository = parent::getRootNamespace() . parent::getConfigGeneratorClassPath('interfaces') . '\\' . $this->name . 'Repository;';
         $repository = str_replace([
@@ -76,16 +68,14 @@ class RepositoryEloquentGenerator extends Generator
             'use_validator' => $this->getValidatorUse(),
             'validator'     => $this->getValidatorMethod(),
             'repository'    => $repository,
-            'model'         => isset($this->options['model']) ? $this->options['model'] : ''
+            'model'         => $this->options['model'] ?? ''
         ]);
     }
 
     /**
      * Get the fillable attributes.
-     *
-     * @return string
      */
-    public function getFillable()
+    public function getFillable(): string
     {
         if (!$this->fillable) {
             return '[]';
@@ -101,15 +91,13 @@ class RepositoryEloquentGenerator extends Generator
 
     /**
      * Get schema parser.
-     *
-     * @return SchemaParser
      */
-    public function getSchemaParser()
+    public function getSchemaParser(): \Prettus\Repository\Generators\Migrations\SchemaParser
     {
         return new SchemaParser($this->fillable);
     }
 
-    public function getValidatorUse()
+    public function getValidatorUse(): string
     {
         $validator = $this->getValidator();
 
@@ -135,7 +123,7 @@ class RepositoryEloquentGenerator extends Generator
     }
 
 
-    public function getValidatorMethod()
+    public function getValidatorMethod(): string
     {
         if ($this->validator != 'yes') {
             return '';

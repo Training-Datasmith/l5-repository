@@ -21,30 +21,24 @@ class RepositoryInterfaceGenerator extends Generator
 
     /**
      * Get root namespace.
-     *
-     * @return string
      */
-    public function getRootNamespace()
+    public function getRootNamespace(): string
     {
         return parent::getRootNamespace() . parent::getConfigGeneratorClassPath($this->getPathConfigNode());
     }
 
     /**
      * Get generator path config node.
-     *
-     * @return string
      */
-    public function getPathConfigNode()
+    public function getPathConfigNode(): string
     {
         return 'interfaces';
     }
 
     /**
      * Get destination path for generated file.
-     *
-     * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->getBasePath() . '/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '/' . $this->getName() . 'Repository.php';
     }
@@ -61,10 +55,8 @@ class RepositoryInterfaceGenerator extends Generator
 
     /**
      * Get array replacements.
-     *
-     * @return array
      */
-    public function getReplacements()
+    public function getReplacements(): array
     {
         return array_merge(parent::getReplacements(), [
             'fillable' => $this->getFillable()
@@ -73,10 +65,8 @@ class RepositoryInterfaceGenerator extends Generator
 
     /**
      * Get the fillable attributes.
-     *
-     * @return string
      */
-    public function getFillable()
+    public function getFillable(): string
     {
         if (!$this->fillable) {
             return '[]';
@@ -92,10 +82,8 @@ class RepositoryInterfaceGenerator extends Generator
 
     /**
      * Get schema parser.
-     *
-     * @return SchemaParser
      */
-    public function getSchemaParser()
+    public function getSchemaParser(): \Prettus\Repository\Generators\Migrations\SchemaParser
     {
         return new SchemaParser($this->fillable);
     }

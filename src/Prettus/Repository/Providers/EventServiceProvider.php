@@ -17,23 +17,21 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'Prettus\Repository\Events\RepositoryEntityCreated' => [
-            'Prettus\Repository\Listeners\CleanCacheRepository'
+        \Prettus\Repository\Events\RepositoryEntityCreated::class => [
+            \Prettus\Repository\Listeners\CleanCacheRepository::class
         ],
-        'Prettus\Repository\Events\RepositoryEntityUpdated' => [
-            'Prettus\Repository\Listeners\CleanCacheRepository'
+        \Prettus\Repository\Events\RepositoryEntityUpdated::class => [
+            \Prettus\Repository\Listeners\CleanCacheRepository::class
         ],
-        'Prettus\Repository\Events\RepositoryEntityDeleted' => [
-            'Prettus\Repository\Listeners\CleanCacheRepository'
+        \Prettus\Repository\Events\RepositoryEntityDeleted::class => [
+            \Prettus\Repository\Listeners\CleanCacheRepository::class
         ]
     ];
 
     /**
      * Register the application's event listeners.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $events = app('events');
 
@@ -47,7 +45,7 @@ class EventServiceProvider extends ServiceProvider
     /**
      * {@inheritdoc}
      */
-    public function register()
+    public function register(): void
     {
         //
     }

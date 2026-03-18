@@ -30,7 +30,6 @@ class RequestCriteria implements CriteriaInterface
      * Apply criteria in query repository
      *
      * @param         Builder|Model     $model
-     * @param RepositoryInterface $repository
      *
      * @return mixed
      * @throws \Exception
@@ -57,7 +56,7 @@ class RequestCriteria implements CriteriaInterface
             $search = $this->parserSearchValue($search);
             $modelForceAndWhere = strtolower($searchJoin) === 'and';
 
-            $model = $model->where(function ($query) use ($fields, $search, $searchData, $isFirstField, $modelForceAndWhere) {
+            $model = $model->where(function ($query) use ($fields, $search, $searchData, $isFirstField, $modelForceAndWhere): void {
                 /** @var Builder $query */
 
                 foreach ($fields as $field => $condition) {
@@ -101,7 +100,7 @@ class RequestCriteria implements CriteriaInterface
                     if ( $isFirstField || $modelForceAndWhere ) {
                         if (!is_null($value)) {
                             if(!is_null($relation)) {
-                                $query->whereHas($relation, function($query) use($field,$condition,$value) {
+                                $query->whereHas($relation, function($query) use($field,$condition,$value): void {
                                     if($condition === 'in'){
                                         $query->whereIn($field,$value);
                                     }elseif($condition === 'between'){
@@ -124,7 +123,7 @@ class RequestCriteria implements CriteriaInterface
                     } else {
                         if (!is_null($value)) {
                             if(!is_null($relation)) {
-                                $query->orWhereHas($relation, function($query) use($field,$condition,$value) {
+                                $query->orWhereHas($relation, function($query) use($field,$condition,$value): void {
                                     if($condition === 'in'){
                                         $query->whereIn($field,$value);
                                     }elseif($condition === 'between'){
@@ -153,7 +152,7 @@ class RequestCriteria implements CriteriaInterface
             if(count($orderBySplit) > 1) {
                 $sortedBySplit = explode(';', $sortedBy);
                 foreach ($orderBySplit as $orderBySplitItemKey => $orderBySplitItem) {
-                    $sortedBy = isset($sortedBySplit[$orderBySplitItemKey]) ? $sortedBySplit[$orderBySplitItemKey] : $sortedBySplit[0];
+                    $sortedBy = $sortedBySplit[$orderBySplitItemKey] ?? $sortedBySplit[0];
                     $model = $this->parserFieldsOrderBy($model, $orderBySplitItem, $sortedBy);
                 }
             } else {
@@ -226,22 +225,18 @@ class RequestCriteria implements CriteriaInterface
                 $keyName = $table.'.'.$prefix.'_id';
             }
 
-            $model = $model
+            return $model
                 ->leftJoin($sortTable, $keyName, '=', $sortTable.$localKey)
                 ->orderBy($sortColumn, $sortedBy)
                 ->addSelect($table.'.*');
-        } else {
-            $model = $model->orderBy($orderBy, $sortedBy);
         }
-        return $model;
+        return $model->orderBy($orderBy, $sortedBy);
     }
 
     /**
      * @param $search
-     *
-     * @return array
      */
-    protected function parserSearchData($search)
+    protected function parserSearchData($search): array
     {
         $searchData = [];
 
@@ -250,7 +245,7 @@ class RequestCriteria implements CriteriaInterface
 
             foreach ($fields as $row) {
                 try {
-                    list($field, $value) = explode(':', $row);
+                    [$field, $value] = explode(':', $row);
                     $searchData[$field] = $value;
                 } catch (\Exception $e) {
                     //Surround offset error
@@ -263,8 +258,6 @@ class RequestCriteria implements CriteriaInterface
 
     /**
      * @param $search
-     *
-     * @return null
      */
     protected function parserSearchValue($search)
     {

@@ -44,10 +44,8 @@ class RulesParser implements Arrayable
      * Parse a string to array of formatted rules.
      *
      * @param  string $rules
-     *
-     * @return array
      */
-    public function parse($rules)
+    public function parse($rules): array
     {
         $this->rules = $rules;
         $parsed = [];
@@ -92,12 +90,10 @@ class RulesParser implements Arrayable
     /**
      * Get column attributes.
      *
-     * @param  string $column
      * @param  string $rules
-     *
      * @return array
      */
-    public function getAttributes($column, $rules)
+    public function getAttributes(string $column, $rules): string
     {
 
         return str_replace($column . '=>', '', $rules);

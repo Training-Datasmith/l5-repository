@@ -59,10 +59,8 @@ class NameParser
 
     /**
      * Fetch the migration name to an array data.
-     *
-     * @return array
      */
-    protected function fetchData()
+    protected function fetchData(): array
     {
         return explode('_', $this->name);
     }
@@ -113,10 +111,8 @@ class NameParser
 
     /**
      * Get name pattern.
-     *
-     * @return string
      */
-    public function getPattern()
+    public function getPattern(): string
     {
         switch ($action = $this->getAction()) {
             case 'add':
@@ -124,16 +120,13 @@ class NameParser
             case 'update':
             case 'insert':
                 return "/{$action}_(.*)_to_(.*)_table/";
-                break;
 
             case 'delete':
             case 'remove':
             case 'alter':
                 return "/{$action}_(.*)_from_(.*)_table/";
-                break;
             default:
                 return "/{$action}_(.*)_table/";
-                break;
         }
     }
 
@@ -161,50 +154,40 @@ class NameParser
      * Determine whether the given type is same with the current schema action or type.
      *
      * @param $type
-     *
-     * @return bool
      */
-    public function is($type)
+    public function is($type): bool
     {
         return $type == $this->getAction();
     }
 
     /**
      * Determine whether the current schema action is a adding action.
-     *
-     * @return bool
      */
-    public function isAdd()
+    public function isAdd(): bool
     {
         return in_array($this->getAction(), $this->actions['add']);
     }
 
     /**
      * Determine whether the current schema action is a deleting action.
-     *
-     * @return bool
      */
-    public function isDelete()
+    public function isDelete(): bool
     {
         return in_array($this->getAction(), $this->actions['delete']);
     }
 
     /**
      * Determine whether the current schema action is a creating action.
-     *
-     * @return bool
      */
-    public function isCreate()
+    public function isCreate(): bool
     {
         return in_array($this->getAction(), $this->actions['create']);
     }
 
     /**
      * Determine whether the current schema action is a dropping action.
-     *
-     * @return bool
      */
-    public function isDrop()
+    public function isDrop(): bool
     {
         return in_array($this->getAction(), $this->actions['drop']);
     }

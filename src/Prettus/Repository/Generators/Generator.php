@@ -37,8 +37,6 @@ abstract class Generator
 
     /**
      * Create new instance of this class.
-     *
-     * @param array $options
      */
     public function __construct(array $options = [])
     {
@@ -61,7 +59,6 @@ abstract class Generator
     /**
      * Set the filesystem instance.
      *
-     * @param \Illuminate\Filesystem\Filesystem $filesystem
      *
      * @return $this
      */
@@ -232,13 +229,11 @@ abstract class Generator
         }
 
         if ($directoryPath) {
-            $path = str_replace('\\', '/', $path);
-        } else {
-            $path = str_replace('/', '\\', $path);
+            return str_replace('\\', '/', $path);
         }
 
 
-        return $path;
+        return str_replace('/', '\\', $path);
     }
 
 
@@ -265,10 +260,8 @@ abstract class Generator
 
     /**
      * Setup some hook.
-     *
-     * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         //
     }
@@ -353,11 +346,10 @@ abstract class Generator
     /**
      * Handle call to __get method.
      *
-     * @param  string $key
      *
      * @return string|mixed
      */
-    public function __get($key)
+    public function __get(string $key)
     {
         if (property_exists($this, $key)) {
             return $this->{$key};

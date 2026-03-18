@@ -19,12 +19,11 @@ trait CacheableRepository
     /**
      * @var CacheRepository
      */
-    protected $cacheRepository = null;
+    protected $cacheRepository;
 
     /**
      * Set Cache Repository
      *
-     * @param CacheRepository $repository
      *
      * @return $this
      */
@@ -68,12 +67,12 @@ trait CacheableRepository
      */
     public function isSkippedCache()
     {
-        $skipped = isset($this->cacheSkip) ? $this->cacheSkip : false;
+        $skipped = $this->cacheSkip ?? false;
         $request = app('Illuminate\Http\Request');
         $skipCacheParam = config('repository.cache.params.skipCache', 'skipCache');
 
         if ($request->has($skipCacheParam) && $request->get($skipCacheParam)) {
-            $skipped = true;
+            return true;
         }
 
         return $skipped;
@@ -92,8 +91,8 @@ trait CacheableRepository
             return false;
         }
 
-        $cacheOnly = isset($this->cacheOnly) ? $this->cacheOnly : config('repository.cache.allowed.only', null);
-        $cacheExcept = isset($this->cacheExcept) ? $this->cacheExcept : config('repository.cache.allowed.except', null);
+        $cacheOnly = $this->cacheOnly ?? config('repository.cache.allowed.only', null);
+        $cacheExcept = $this->cacheExcept ?? config('repository.cache.allowed.except', null);
 
         if (is_array($cacheOnly)) {
             return in_array($method, $cacheOnly);
@@ -115,18 +114,16 @@ trait CacheableRepository
      *
      * @param $method
      * @param $args
-     *
-     * @return string
      */
-    public function getCacheKey($method, $args = null)
+    public function getCacheKey($method, $args = null): string
     {
 
         $request = app('Illuminate\Http\Request');
         $args = serialize($args);
         $criteria = $this->serializeCriteria();
-        $key = sprintf('%s@%s-%s', get_called_class(), $method, md5($args . $criteria . $request->fullUrl()));
+        $key = sprintf('%s@%s-%s', static::class, $method, md5($args . $criteria . $request->fullUrl()));
 
-        CacheKeys::putKey(get_called_class(), $key);
+        CacheKeys::putKey(static::class, $key);
 
         return $key;
 
@@ -134,10 +131,8 @@ trait CacheableRepository
 
     /**
      * Serialize the criteria making sure the Closures are taken care of.
-     *
-     * @return string
      */
-    protected function serializeCriteria()
+    protected function serializeCriteria(): string
     {
         try {
             return serialize($this->getCriteria());
@@ -187,7 +182,7 @@ trait CacheableRepository
      */
     public function getCacheTime()
     {
-        $cacheMinutes = isset($this->cacheMinutes) ? $this->cacheMinutes : config('repository.cache.minutes', 30);
+        $cacheMinutes = $this->cacheMinutes ?? config('repository.cache.minutes', 30);
 
         /**
          * https://laravel.com/docs/5.8/upgrade#cache-ttl-in-seconds
@@ -226,10 +221,8 @@ trait CacheableRepository
     /**
      * Retrieve all data of repository, paginated
      *
-     * @param null  $limit
      * @param array $columns
      * @param string $method
-     *
      * @return mixed
      */
     public function paginate($limit = null, $columns = ['*'], $method = 'paginate')
@@ -304,9 +297,7 @@ trait CacheableRepository
     /**
      * Find data by multiple fields
      *
-     * @param array $where
      * @param array $columns
-     *
      * @return mixed
      */
     public function findWhere(array $where, $columns = ['*'])
@@ -329,7 +320,6 @@ trait CacheableRepository
     /**
      * Find data by Criteria
      *
-     * @param CriteriaInterface $criteria
      *
      * @return mixed
      */

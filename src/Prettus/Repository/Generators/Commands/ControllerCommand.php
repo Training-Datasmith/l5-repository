@@ -50,9 +50,8 @@ class ControllerCommand extends Command
      * Execute the command.
      *
      * @see fire()
-     * @return void
      */
-    public function handle(){
+    public function handle(): void{
         $this->laravel->call([$this, 'fire'], func_get_args());
     }
 

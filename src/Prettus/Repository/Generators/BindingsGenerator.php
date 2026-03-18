@@ -22,7 +22,7 @@ class BindingsGenerator extends Generator
      */
     protected $stub = 'bindings/bindings';
 
-    public function run()
+    public function run(): void
     {
 
 
@@ -35,10 +35,8 @@ class BindingsGenerator extends Generator
 
     /**
      * Get destination path for generated file.
-     *
-     * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->getBasePath() . '/Providers/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '.php';
     }
@@ -55,10 +53,8 @@ class BindingsGenerator extends Generator
 
     /**
      * Get generator path config node.
-     *
-     * @return string
      */
-    public function getPathConfigNode()
+    public function getPathConfigNode(): string
     {
         return 'provider';
     }
@@ -103,20 +99,16 @@ class BindingsGenerator extends Generator
 
     /**
      * Get root namespace.
-     *
-     * @return string
      */
-    public function getRootNamespace()
+    public function getRootNamespace(): string
     {
         return parent::getRootNamespace() . parent::getConfigGeneratorClassPath($this->getPathConfigNode());
     }
 
     /**
      * Get array replacements.
-     *
-     * @return array
      */
-    public function getReplacements()
+    public function getReplacements(): array
     {
 
         return array_merge(parent::getReplacements(), [

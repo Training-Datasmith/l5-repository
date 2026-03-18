@@ -21,30 +21,24 @@ class ValidatorGenerator extends Generator
 
     /**
      * Get root namespace.
-     *
-     * @return string
      */
-    public function getRootNamespace()
+    public function getRootNamespace(): string
     {
         return parent::getRootNamespace() . parent::getConfigGeneratorClassPath($this->getPathConfigNode());
     }
 
     /**
      * Get generator path config node.
-     *
-     * @return string
      */
-    public function getPathConfigNode()
+    public function getPathConfigNode(): string
     {
         return 'validators';
     }
 
     /**
      * Get destination path for generated file.
-     *
-     * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->getBasePath() . '/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '/' . $this->getName() . 'Validator.php';
     }
@@ -61,10 +55,8 @@ class ValidatorGenerator extends Generator
 
     /**
      * Get array replacements.
-     *
-     * @return array
      */
-    public function getReplacements()
+    public function getReplacements(): array
     {
 
         return array_merge(parent::getReplacements(), [
@@ -74,10 +66,8 @@ class ValidatorGenerator extends Generator
 
     /**
      * Get the rules.
-     *
-     * @return string
      */
-    public function getRules()
+    public function getRules(): string
     {
         if (!$this->rules) {
             return '[]';
@@ -96,7 +86,7 @@ class ValidatorGenerator extends Generator
      *
      * @return SchemaParser
      */
-    public function getSchemaParser()
+    public function getSchemaParser(): \Prettus\Repository\Generators\Migrations\RulesParser
     {
         return new RulesParser($this->rules);
     }

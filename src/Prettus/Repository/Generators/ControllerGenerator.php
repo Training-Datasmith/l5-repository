@@ -20,30 +20,24 @@ class ControllerGenerator extends Generator
 
     /**
      * Get root namespace.
-     *
-     * @return string
      */
-    public function getRootNamespace()
+    public function getRootNamespace(): string
     {
         return str_replace('/', '\\', parent::getRootNamespace() . parent::getConfigGeneratorClassPath($this->getPathConfigNode()));
     }
 
     /**
      * Get generator path config node.
-     *
-     * @return string
      */
-    public function getPathConfigNode()
+    public function getPathConfigNode(): string
     {
         return 'controllers';
     }
 
     /**
      * Get destination path for generated file.
-     *
-     * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->getBasePath() . '/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '/' . $this->getControllerName() . 'Controller.php';
     }
@@ -60,10 +54,8 @@ class ControllerGenerator extends Generator
 
     /**
      * Gets controller name based on model
-     *
-     * @return string
      */
-    public function getControllerName()
+    public function getControllerName(): string
     {
 
         return ucfirst($this->getPluralName());
@@ -82,10 +74,8 @@ class ControllerGenerator extends Generator
 
     /**
      * Get array replacements.
-     *
-     * @return array
      */
-    public function getReplacements()
+    public function getReplacements(): array
     {
 
         return array_merge(parent::getReplacements(), [
@@ -110,10 +100,8 @@ class ControllerGenerator extends Generator
 
     /**
      * Gets validator full class name
-     *
-     * @return string
      */
-    public function getValidator()
+    public function getValidator(): string
     {
         $validatorGenerator = new ValidatorGenerator([
             'name' => $this->name,
@@ -130,10 +118,8 @@ class ControllerGenerator extends Generator
 
     /**
      * Gets repository full class name
-     *
-     * @return string
      */
-    public function getRepository()
+    public function getRepository(): string
     {
         $repositoryGenerator = new RepositoryInterfaceGenerator([
             'name' => $this->name,

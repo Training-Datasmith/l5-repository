@@ -13,7 +13,6 @@ interface CacheableInterface
     /**
      * Set Cache Repository
      *
-     * @param CacheRepository $repository
      *
      * @return $this
      */

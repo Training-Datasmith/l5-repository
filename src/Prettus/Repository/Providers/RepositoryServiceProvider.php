@@ -19,11 +19,7 @@ class RepositoryServiceProvider extends ServiceProvider
     protected $defer = false;
 
 
-    /**
-     *
-     * @return void
-     */
-    public function boot()
+    public function boot(): void
     {
         $this->publishes([
             __DIR__ . '/../../../resources/config/repository.php' => config_path('repository.php')
@@ -37,20 +33,18 @@ class RepositoryServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
-        $this->commands('Prettus\Repository\Generators\Commands\RepositoryCommand');
-        $this->commands('Prettus\Repository\Generators\Commands\TransformerCommand');
-        $this->commands('Prettus\Repository\Generators\Commands\PresenterCommand');
-        $this->commands('Prettus\Repository\Generators\Commands\EntityCommand');
-        $this->commands('Prettus\Repository\Generators\Commands\ValidatorCommand');
-        $this->commands('Prettus\Repository\Generators\Commands\ControllerCommand');
-        $this->commands('Prettus\Repository\Generators\Commands\BindingsCommand');
-        $this->commands('Prettus\Repository\Generators\Commands\CriteriaCommand');
-        $this->app->register('Prettus\Repository\Providers\EventServiceProvider');
+        $this->commands(\Prettus\Repository\Generators\Commands\RepositoryCommand::class);
+        $this->commands(\Prettus\Repository\Generators\Commands\TransformerCommand::class);
+        $this->commands(\Prettus\Repository\Generators\Commands\PresenterCommand::class);
+        $this->commands(\Prettus\Repository\Generators\Commands\EntityCommand::class);
+        $this->commands(\Prettus\Repository\Generators\Commands\ValidatorCommand::class);
+        $this->commands(\Prettus\Repository\Generators\Commands\ControllerCommand::class);
+        $this->commands(\Prettus\Repository\Generators\Commands\BindingsCommand::class);
+        $this->commands(\Prettus\Repository\Generators\Commands\CriteriaCommand::class);
+        $this->app->register(\Prettus\Repository\Providers\EventServiceProvider::class);
     }
 
 

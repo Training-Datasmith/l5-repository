@@ -65,7 +65,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
      *
      * @var array
      */
-    protected $rules = null;
+    protected $rules;
 
     /**
      * Collection of Criteria
@@ -87,11 +87,8 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * @var \Closure
      */
-    protected $scopeQuery = null;
+    protected $scopeQuery;
 
-    /**
-     * @param Application $app
-     */
     public function __construct(Application $app)
     {
         $this->app = $app;
@@ -105,7 +102,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      *
      */
-    public function boot()
+    public function boot(): void
     {
         //
     }
@@ -123,7 +120,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * @throws RepositoryException
      */
-    public function resetModel()
+    public function resetModel(): void
     {
         $this->makeModel();
     }
@@ -148,7 +145,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Specify Validator class name of Prettus\Validator\Contracts\ValidatorInterface
      *
-     * @return null
      * @throws Exception
      */
     public function validator()
@@ -199,7 +195,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     }
 
     /**
-     * @param null $presenter
      *
      * @return PresenterInterface
      * @throws RepositoryException
@@ -222,7 +217,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     }
 
     /**
-     * @param null $validator
      *
      * @return null|ValidatorInterface
      * @throws RepositoryException
@@ -257,7 +251,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Query Scope
      *
-     * @param \Closure $scope
      *
      * @return $this
      */
@@ -355,9 +348,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Count results of repository
      *
-     * @param array  $where
      * @param string $columns
-     *
      * @return int
      */
     public function count(array $where = [], $columns = '*')
@@ -411,7 +402,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Retrieve first data of repository, or return new Entity
      *
-     * @param array $attributes
      *
      * @return mixed
      */
@@ -434,7 +424,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Retrieve first data of repository, or create new Entity
      *
-     * @param array $attributes
      *
      * @return mixed
      */
@@ -544,9 +533,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Find data by multiple fields
      *
-     * @param array $where
      * @param array $columns
-     *
      * @return mixed
      */
     public function findWhere(array $where, $columns = ['*'])
@@ -566,9 +553,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
      * Find data by multiple values in one field
      *
      * @param       $field
-     * @param array $values
      * @param array $columns
-     *
      * @return mixed
      */
     public function findWhereIn($field, array $values, $columns = ['*'])
@@ -585,9 +570,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
      * Find data by excluding multiple values in one field
      *
      * @param       $field
-     * @param array $values
      * @param array $columns
-     *
      * @return mixed
      */
     public function findWhereNotIn($field, array $values, $columns = ['*'])
@@ -604,9 +587,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
      * Find data by between values in one field
      *
      * @param       $field
-     * @param array $values
      * @param array $columns
-     *
      * @return mixed
      */
     public function findWhereBetween($field, array $values, $columns = ['*'])
@@ -622,7 +603,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Save a new entity in repository
      *
-     * @param array $attributes
      *
      * @return mixed
      * @throws ValidatorException
@@ -659,7 +639,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Update a entity in repository by id
      *
-     * @param array $attributes
      * @param       $id
      *
      * @return mixed
@@ -710,8 +689,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Update or Create an entity in repository
      *
-     * @param array $attributes
-     * @param array $values
      *
      * @return mixed
      * @throws ValidatorException
@@ -773,7 +750,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Delete multiple entities by given criteria.
      *
-     * @param array $where
      *
      * @return int
      */
@@ -857,7 +833,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Set hidden fields
      *
-     * @param array $fields
      *
      * @return $this
      */
@@ -901,7 +876,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Set visible fields
      *
-     * @param array $fields
      *
      * @return $this
      */
@@ -942,7 +916,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
      */
     public function popCriteria($criteria)
     {
-        $this->criteria = $this->criteria->reject(function ($item) use ($criteria) {
+        $this->criteria = $this->criteria->reject(function ($item) use ($criteria): bool {
             if (is_object($item) && is_string($criteria)) {
                 return get_class($item) === $criteria;
             }
@@ -970,7 +944,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Find data by Criteria
      *
-     * @param CriteriaInterface $criteria
      *
      * @return mixed
      */
@@ -1063,7 +1036,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Applies the given where conditions to the model.
      *
-     * @param array $where
      *
      * @return void
      */
@@ -1071,7 +1043,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     {
         foreach ($where as $field => $value) {
             if (is_array($value)) {
-                list($field, $condition, $val) = $value;
+                [$field, $condition, $val] = $value;
                 //smooth input
                 $condition = preg_replace('/\s\s+/', ' ', trim($condition));
 

@@ -21,22 +21,22 @@ class CleanCacheRepository
     /**
      * @var CacheRepository
      */
-    protected $cache = null;
+    protected $cache;
 
     /**
      * @var RepositoryInterface
      */
-    protected $repository = null;
+    protected $repository;
 
     /**
      * @var Model
      */
-    protected $model = null;
+    protected $model;
 
     /**
      * @var string
      */
-    protected $action = null;
+    protected $action;
 
     /**
      *
@@ -46,10 +46,7 @@ class CleanCacheRepository
         $this->cache = app(config('repository.cache.repository', 'cache'));
     }
 
-    /**
-     * @param RepositoryEventBase $event
-     */
-    public function handle(RepositoryEventBase $event)
+    public function handle(RepositoryEventBase $event): void
     {
         try {
             $cleanEnabled = config("repository.cache.clean.enabled", true);

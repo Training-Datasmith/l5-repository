@@ -18,15 +18,13 @@ class CacheKeys
     /**
      * @var array
      */
-    protected static $keys = null;
+    protected static $keys;
 
     /**
      * @param $group
      * @param $key
-     *
-     * @return void
      */
-    public static function putKey($group, $key)
+    public static function putKey($group, $key): void
     {
         self::loadKeys();
 
@@ -65,9 +63,7 @@ class CacheKeys
      */
     public static function getFileKeys()
     {
-        $file = storage_path("framework/cache/" . self::$storeFile);
-
-        return $file;
+        return storage_path("framework/cache/" . self::$storeFile);
     }
 
     /**
@@ -90,7 +86,7 @@ class CacheKeys
     public static function getKeys($group)
     {
         self::loadKeys();
-        self::$keys[$group] = isset(self::$keys[$group]) ? self::$keys[$group] : [];
+        self::$keys[$group] = self::$keys[$group] ?? [];
 
         return self::$keys[$group];
     }
@@ -101,7 +97,7 @@ class CacheKeys
      *
      * @return mixed
      */
-    public static function __callStatic($method, $parameters)
+    public static function __callStatic(string $method, array $parameters)
     {
         $instance = new static;
 
@@ -117,7 +113,7 @@ class CacheKeys
      *
      * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters)
     {
         $instance = new static;
 

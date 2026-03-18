@@ -50,10 +50,8 @@ class SchemaParser implements Arrayable
 
     /**
      * Render the migration to formatted script.
-     *
-     * @return string
      */
-    public function render()
+    public function render(): string
     {
         $results = '';
         foreach ($this->toArray() as $column => $attributes) {
@@ -77,10 +75,8 @@ class SchemaParser implements Arrayable
      * Parse a string to array of formatted schema.
      *
      * @param  string $schema
-     *
-     * @return array
      */
-    public function parse($schema)
+    public function parse($schema): array
     {
         $this->schema = $schema;
         $parsed = [];
@@ -124,12 +120,10 @@ class SchemaParser implements Arrayable
     /**
      * Get column attributes.
      *
-     * @param  string $column
      * @param  string $schema
-     *
      * @return array
      */
-    public function getAttributes($column, $schema)
+    public function getAttributes(string $column, $schema)
     {
         $fields = str_replace($column . ':', '', $schema);
 
@@ -140,10 +134,8 @@ class SchemaParser implements Arrayable
      * Determinte whether the given column is exist in customAttributes array.
      *
      * @param  string $column
-     *
-     * @return boolean
      */
-    public function hasCustomAttribute($column)
+    public function hasCustomAttribute($column): bool
     {
         return array_key_exists($column, $this->customAttributes);
     }
@@ -152,10 +144,8 @@ class SchemaParser implements Arrayable
      * Get custom attributes value.
      *
      * @param  string $column
-     *
-     * @return array
      */
-    public function getCustomAttribute($column)
+    public function getCustomAttribute($column): array
     {
         return (array)$this->customAttributes[$column];
     }
@@ -165,10 +155,8 @@ class SchemaParser implements Arrayable
      *
      * @param  string $column
      * @param  array  $attributes
-     *
-     * @return string
      */
-    public function createField($column, $attributes, $type = 'add')
+    public function createField($column, $attributes, $type = 'add'): string
     {
         $results = "\t\t\t" . '$table';
         foreach ($attributes as $key => $field) {
@@ -180,10 +168,8 @@ class SchemaParser implements Arrayable
 
     /**
      * Render down migration fields.
-     *
-     * @return string
      */
-    public function down()
+    public function down(): string
     {
         $results = '';
         foreach ($this->toArray() as $column => $attributes) {
@@ -197,12 +183,9 @@ class SchemaParser implements Arrayable
      * Format field to script.
      *
      * @param  int    $key
-     * @param  string $field
-     * @param  string $column
      *
-     * @return string
      */
-    protected function addColumn($key, $field, $column)
+    protected function addColumn($key, string $field, string $column): string
     {
         if ($this->hasCustomAttribute($column)) {
             return '->' . $field;
@@ -221,12 +204,9 @@ class SchemaParser implements Arrayable
      * Format field to script.
      *
      * @param  int    $key
-     * @param  string $field
-     * @param  string $column
      *
-     * @return string
      */
-    protected function removeColumn($key, $field, $column)
+    protected function removeColumn($key, string $field, string $column): string
     {
         if ($this->hasCustomAttribute($column)) {
             return '->' . $field;

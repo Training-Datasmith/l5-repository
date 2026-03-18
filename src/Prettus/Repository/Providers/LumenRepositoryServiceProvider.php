@@ -19,13 +19,11 @@ class LumenRepositoryServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
-        $this->commands('Prettus\Repository\Generators\Commands\RepositoryCommand');
-        $this->app->register('Prettus\Repository\Providers\EventServiceProvider');
+        $this->commands(\Prettus\Repository\Generators\Commands\RepositoryCommand::class);
+        $this->app->register(\Prettus\Repository\Providers\EventServiceProvider::class);
     }
 
     /**

@@ -24,10 +24,8 @@ class MigrationGenerator extends Generator
 
     /**
      * Get base path of destination file.
-     *
-     * @return string
      */
-    public function getBasePath()
+    public function getBasePath(): string
     {
         return base_path() . '/database/migrations/';
     }
@@ -35,10 +33,8 @@ class MigrationGenerator extends Generator
 
     /**
      * Get destination path for generated file.
-     *
-     * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->getBasePath() . $this->getFileName() . '.php';
     }
@@ -46,10 +42,8 @@ class MigrationGenerator extends Generator
 
     /**
      * Get generator path config node.
-     *
-     * @return string
      */
-    public function getPathConfigNode()
+    public function getPathConfigNode(): string
     {
         return '';
     }
@@ -57,10 +51,8 @@ class MigrationGenerator extends Generator
 
     /**
      * Get root namespace.
-     *
-     * @return string
      */
-    public function getRootNamespace()
+    public function getRootNamespace(): string
     {
         return '';
     }
@@ -68,10 +60,8 @@ class MigrationGenerator extends Generator
 
     /**
      * Get migration name.
-     *
-     * @return string
      */
-    public function getMigrationName()
+    public function getMigrationName(): string
     {
         return strtolower($this->name);
     }
@@ -79,10 +69,8 @@ class MigrationGenerator extends Generator
 
     /**
      * Get file name.
-     *
-     * @return string
      */
-    public function getFileName()
+    public function getFileName(): string
     {
         return date('Y_m_d_His_') . $this->getMigrationName();
     }
@@ -90,10 +78,8 @@ class MigrationGenerator extends Generator
 
     /**
      * Get schema parser.
-     *
-     * @return SchemaParser
      */
-    public function getSchemaParser()
+    public function getSchemaParser(): \Prettus\Repository\Generators\Migrations\SchemaParser
     {
         return new SchemaParser($this->fields);
     }
@@ -101,10 +87,8 @@ class MigrationGenerator extends Generator
 
     /**
      * Get name parser.
-     *
-     * @return NameParser
      */
-    public function getNameParser()
+    public function getNameParser(): \Prettus\Repository\Generators\Migrations\NameParser
     {
         return new NameParser($this->name);
     }

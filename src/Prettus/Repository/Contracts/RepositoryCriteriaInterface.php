@@ -40,7 +40,6 @@ interface RepositoryCriteriaInterface
     /**
      * Find data by Criteria
      *
-     * @param CriteriaInterface $criteria
      *
      * @return mixed
      */

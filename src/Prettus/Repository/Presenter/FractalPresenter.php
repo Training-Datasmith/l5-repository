@@ -23,22 +23,22 @@ abstract class FractalPresenter implements PresenterInterface
     /**
      * @var string
      */
-    protected $resourceKeyItem = null;
+    protected $resourceKeyItem;
 
     /**
      * @var string
      */
-    protected $resourceKeyCollection = null;
+    protected $resourceKeyCollection;
 
     /**
      * @var \League\Fractal\Manager
      */
-    protected $fractal = null;
+    protected $fractal;
 
     /**
      * @var \League\Fractal\Resource\Collection
      */
-    protected $resource = null;
+    protected $resource;
 
     /**
      * @throws Exception

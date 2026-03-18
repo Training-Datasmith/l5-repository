@@ -62,9 +62,7 @@ interface RepositoryInterface
     /**
      * Retrieve all data of repository, paginated
      *
-     * @param null $limit
      * @param array $columns
-     *
      * @return mixed
      */
     public function paginate($limit = null, $columns = ['*']);
@@ -72,9 +70,7 @@ interface RepositoryInterface
     /**
      * Retrieve all data of repository, simple paginated
      *
-     * @param null $limit
      * @param array $columns
-     *
      * @return mixed
      */
     public function simplePaginate($limit = null, $columns = ['*']);
@@ -103,9 +99,7 @@ interface RepositoryInterface
     /**
      * Find data by multiple fields
      *
-     * @param array $where
      * @param array $columns
-     *
      * @return mixed
      */
     public function findWhere(array $where, $columns = ['*']);
@@ -114,9 +108,7 @@ interface RepositoryInterface
      * Find data by multiple values in one field
      *
      * @param       $field
-     * @param array $values
      * @param array $columns
-     *
      * @return mixed
      */
     public function findWhereIn($field, array $values, $columns = ['*']);
@@ -125,9 +117,7 @@ interface RepositoryInterface
      * Find data by excluding multiple values in one field
      *
      * @param       $field
-     * @param array $values
      * @param array $columns
-     *
      * @return mixed
      */
     public function findWhereNotIn($field, array $values, $columns = ['*']);
@@ -136,9 +126,7 @@ interface RepositoryInterface
      * Find data by between values in one field
      *
      * @param       $field
-     * @param array $values
      * @param array $columns
-     *
      * @return mixed
      */
     public function findWhereBetween($field, array $values, $columns = ['*']);
@@ -146,7 +134,6 @@ interface RepositoryInterface
     /**
      * Save a new entity in repository
      *
-     * @param array $attributes
      *
      * @return mixed
      */
@@ -155,9 +142,7 @@ interface RepositoryInterface
     /**
      * Update a entity in repository by id
      *
-     * @param array $attributes
      * @param       $id
-     *
      * @return mixed
      */
     public function update(array $attributes, $id);
@@ -167,8 +152,6 @@ interface RepositoryInterface
      *
      * @throws ValidatorException
      *
-     * @param array $attributes
-     * @param array $values
      *
      * @return mixed
      */
@@ -223,7 +206,6 @@ interface RepositoryInterface
     /**
      * Set hidden fields
      *
-     * @param array $fields
      *
      * @return $this
      */
@@ -232,7 +214,6 @@ interface RepositoryInterface
     /**
      * Set visible fields
      *
-     * @param array $fields
      *
      * @return $this
      */
@@ -241,7 +222,6 @@ interface RepositoryInterface
     /**
      * Query Scope
      *
-     * @param \Closure $scope
      *
      * @return $this
      */
@@ -282,7 +262,6 @@ interface RepositoryInterface
     /**
      * Retrieve first data of repository, or return new Entity
      *
-     * @param array $attributes
      *
      * @return mixed
      */
@@ -291,7 +270,6 @@ interface RepositoryInterface
     /**
      * Retrieve first data of repository, or create new Entity
      *
-     * @param array $attributes
      *
      * @return mixed
      */
