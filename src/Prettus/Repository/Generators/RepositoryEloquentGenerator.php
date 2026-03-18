@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Prettus\Repository\Generators;
 
 use Prettus\Repository\Generators\Migrations\SchemaParser;
@@ -10,7 +13,6 @@ use Prettus\Repository\Generators\Migrations\SchemaParser;
  */
 class RepositoryEloquentGenerator extends Generator
 {
-
     /**
      * Get stub name.
      *
@@ -59,8 +61,8 @@ class RepositoryEloquentGenerator extends Generator
     {
         $repository = parent::getRootNamespace() . parent::getConfigGeneratorClassPath('interfaces') . '\\' . $this->name . 'Repository;';
         $repository = str_replace([
-            "\\",
-            '/'
+            '\\',
+            '/',
         ], '\\', $repository);
 
         return array_merge(parent::getReplacements(), [
@@ -68,7 +70,7 @@ class RepositoryEloquentGenerator extends Generator
             'use_validator' => $this->getValidatorUse(),
             'validator'     => $this->getValidatorMethod(),
             'repository'    => $repository,
-            'model'         => $this->options['model'] ?? ''
+            'model'         => $this->options['model'] ?? '',
         ]);
     }
 
@@ -104,7 +106,6 @@ class RepositoryEloquentGenerator extends Generator
         return "use {$validator};";
     }
 
-
     public function getValidator()
     {
         $validatorGenerator = new ValidatorGenerator([
@@ -116,12 +117,11 @@ class RepositoryEloquentGenerator extends Generator
         $validator = $validatorGenerator->getRootNamespace() . '\\' . $validatorGenerator->getName();
 
         return str_replace([
-            "\\",
-            '/'
+            '\\',
+            '/',
         ], '\\', $validator) . 'Validator';
 
     }
-
 
     public function getValidatorMethod(): string
     {

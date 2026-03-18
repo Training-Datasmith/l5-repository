@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Prettus\Repository\Generators;
 
 use Illuminate\Support\Str;
@@ -10,7 +13,6 @@ use Illuminate\Support\Str;
  */
 class ControllerGenerator extends Generator
 {
-
     /**
      * Get stub name.
      *
@@ -110,11 +112,10 @@ class ControllerGenerator extends Generator
         $validator = $validatorGenerator->getRootNamespace() . '\\' . $validatorGenerator->getName();
 
         return 'use ' . str_replace([
-            "\\",
-            '/'
+            '\\',
+            '/',
         ], '\\', $validator) . 'Validator;';
     }
-
 
     /**
      * Gets repository full class name
@@ -128,8 +129,8 @@ class ControllerGenerator extends Generator
         $repository = $repositoryGenerator->getRootNamespace() . '\\' . $repositoryGenerator->getName();
 
         return 'use ' . str_replace([
-            "\\",
-            '/'
+            '\\',
+            '/',
         ], '\\', $repository) . 'Repository;';
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Prettus\Repository\Generators;
 
 use Prettus\Repository\Generators\Migrations\SchemaParser;
@@ -11,7 +13,6 @@ use Prettus\Repository\Generators\Migrations\SchemaParser;
  */
 class ModelGenerator extends Generator
 {
-
     /**
      * Get stub name.
      *
@@ -60,7 +61,7 @@ class ModelGenerator extends Generator
     public function getReplacements(): array
     {
         return array_merge(parent::getReplacements(), [
-            'fillable' => $this->getFillable()
+            'fillable' => $this->getFillable(),
         ]);
     }
 

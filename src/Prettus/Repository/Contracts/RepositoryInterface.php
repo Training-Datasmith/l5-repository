@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Prettus\Repository\Contracts;
 
 /**
@@ -8,7 +11,6 @@ namespace Prettus\Repository\Contracts;
  */
 interface RepositoryInterface
 {
-
     /**
      * Retrieve data array for populate field select
      *

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Prettus\Repository\Generators;
 
 use Prettus\Repository\Generators\Migrations\RulesParser;
@@ -11,7 +14,6 @@ use Prettus\Repository\Generators\Migrations\SchemaParser;
  */
 class ValidatorGenerator extends Generator
 {
-
     /**
      * Get stub name.
      *

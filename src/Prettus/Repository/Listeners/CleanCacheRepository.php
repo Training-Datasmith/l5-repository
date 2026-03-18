@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Prettus\Repository\Listeners;
 
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Prettus\Repository\Contracts\RepositoryInterface;
@@ -17,7 +18,6 @@ use Prettus\Repository\Helpers\CacheKeys;
  */
 class CleanCacheRepository
 {
-
     /**
      * @var CacheRepository
      */
@@ -49,7 +49,7 @@ class CleanCacheRepository
     public function handle(RepositoryEventBase $event): void
     {
         try {
-            $cleanEnabled = config("repository.cache.clean.enabled", true);
+            $cleanEnabled = config('repository.cache.clean.enabled', true);
 
             if ($cleanEnabled) {
                 $this->repository = $event->getRepository();

@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Prettus\Repository\Events;
 
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 /**
@@ -16,7 +17,7 @@ class RepositoryEntityCreating extends RepositoryEventBase
     /**
      * @var string
      */
-    protected $action = "creating";
+    protected $action = 'creating';
 
     public function __construct(RepositoryInterface $repository, array $model)
     {

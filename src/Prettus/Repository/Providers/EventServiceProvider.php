@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Prettus\Repository\Providers;
 
 use Illuminate\Support\ServiceProvider;
@@ -10,7 +13,6 @@ use Illuminate\Support\ServiceProvider;
  */
 class EventServiceProvider extends ServiceProvider
 {
-
     /**
      * The event handler mappings for the application.
      *
@@ -18,14 +20,14 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         \Prettus\Repository\Events\RepositoryEntityCreated::class => [
-            \Prettus\Repository\Listeners\CleanCacheRepository::class
+            \Prettus\Repository\Listeners\CleanCacheRepository::class,
         ],
         \Prettus\Repository\Events\RepositoryEntityUpdated::class => [
-            \Prettus\Repository\Listeners\CleanCacheRepository::class
+            \Prettus\Repository\Listeners\CleanCacheRepository::class,
         ],
         \Prettus\Repository\Events\RepositoryEntityDeleted::class => [
-            \Prettus\Repository\Listeners\CleanCacheRepository::class
-        ]
+            \Prettus\Repository\Listeners\CleanCacheRepository::class,
+        ],
     ];
 
     /**
@@ -47,7 +49,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+
     }
 
     /**

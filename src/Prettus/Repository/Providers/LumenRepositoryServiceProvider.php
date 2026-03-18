@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Prettus\Repository\Providers;
 
 use Illuminate\Support\ServiceProvider;

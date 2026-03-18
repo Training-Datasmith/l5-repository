@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Prettus\Repository\Generators;
 
 /**
@@ -37,17 +40,17 @@ class PresenterGenerator extends Generator
     public function getReplacements(): array
     {
         $transformerGenerator = new TransformerGenerator([
-            'name' => $this->name
+            'name' => $this->name,
         ]);
         $transformer = $transformerGenerator->getRootNamespace() . '\\' . $transformerGenerator->getName() . 'Transformer';
         $transformer = str_replace([
-            "\\",
-            '/'
+            '\\',
+            '/',
         ], '\\', $transformer);
         echo $transformer;
 
         return array_merge(parent::getReplacements(), [
-            'transformer' => $transformer
+            'transformer' => $transformer,
         ]);
     }
 

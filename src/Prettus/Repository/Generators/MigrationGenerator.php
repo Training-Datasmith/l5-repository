@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Prettus\Repository\Generators;
 
 use Prettus\Repository\Generators\Migrations\NameParser;
@@ -13,14 +15,12 @@ use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
  */
 class MigrationGenerator extends Generator
 {
-
     /**
      * Get stub name.
      *
      * @var string
      */
     protected $stub = 'migration/plain';
-
 
     /**
      * Get base path of destination file.
@@ -30,7 +30,6 @@ class MigrationGenerator extends Generator
         return base_path() . '/database/migrations/';
     }
 
-
     /**
      * Get destination path for generated file.
      */
@@ -38,7 +37,6 @@ class MigrationGenerator extends Generator
     {
         return $this->getBasePath() . $this->getFileName() . '.php';
     }
-
 
     /**
      * Get generator path config node.
@@ -48,7 +46,6 @@ class MigrationGenerator extends Generator
         return '';
     }
 
-
     /**
      * Get root namespace.
      */
@@ -56,7 +53,6 @@ class MigrationGenerator extends Generator
     {
         return '';
     }
-
 
     /**
      * Get migration name.
@@ -66,7 +62,6 @@ class MigrationGenerator extends Generator
         return strtolower($this->name);
     }
 
-
     /**
      * Get file name.
      */
@@ -74,7 +69,6 @@ class MigrationGenerator extends Generator
     {
         return date('Y_m_d_His_') . $this->getMigrationName();
     }
-
 
     /**
      * Get schema parser.
@@ -84,7 +78,6 @@ class MigrationGenerator extends Generator
         return new SchemaParser($this->fields);
     }
 
-
     /**
      * Get name parser.
      */
@@ -92,7 +85,6 @@ class MigrationGenerator extends Generator
     {
         return new NameParser($this->name);
     }
-
 
     /**
      * Get stub templates.

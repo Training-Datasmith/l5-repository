@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Prettus\Repository\Generators;
 
 /**
@@ -8,7 +11,6 @@ namespace Prettus\Repository\Generators;
  */
 class BindingsGenerator extends Generator
 {
-
     /**
      * The placeholder for repository bindings
      *
@@ -25,11 +27,10 @@ class BindingsGenerator extends Generator
     public function run(): void
     {
 
-
         // Add entity repository binding to the repository service provider
         $provider = \File::get($this->getPath());
-        $repositoryInterface = '\\' . $this->getRepository() . "::class";
-        $repositoryEloquent = '\\' . $this->getEloquentRepository() . "::class";
+        $repositoryInterface = '\\' . $this->getRepository() . '::class';
+        $repositoryEloquent = '\\' . $this->getEloquentRepository() . '::class';
         \File::put($this->getPath(), str_replace($this->bindPlaceholder, "\$this->app->bind({$repositoryInterface}, $repositoryEloquent);" . PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
     }
 
@@ -73,8 +74,8 @@ class BindingsGenerator extends Generator
         $repository = $repositoryGenerator->getRootNamespace() . '\\' . $repositoryGenerator->getName();
 
         return str_replace([
-            "\\",
-            '/'
+            '\\',
+            '/',
         ], '\\', $repository) . 'Repository';
     }
 
@@ -92,8 +93,8 @@ class BindingsGenerator extends Generator
         $repository = $repositoryGenerator->getRootNamespace() . '\\' . $repositoryGenerator->getName();
 
         return str_replace([
-            "\\",
-            '/'
+            '\\',
+            '/',
         ], '\\', $repository) . 'RepositoryEloquent';
     }
 

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Prettus\Repository\Events;
 
 /**
@@ -11,5 +14,5 @@ class RepositoryEntityUpdated extends RepositoryEventBase
     /**
      * @var string
      */
-    protected $action = "updated";
+    protected $action = 'updated';
 }

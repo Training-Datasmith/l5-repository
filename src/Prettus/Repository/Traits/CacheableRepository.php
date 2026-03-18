@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Prettus\Repository\Traits;
 
+use Exception;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Helpers\CacheKeys;
 use ReflectionObject;
-use Exception;
 
 /**
  * Class CacheableRepository
@@ -15,7 +17,6 @@ use Exception;
  */
 trait CacheableRepository
 {
-
     /**
      * @var CacheRepository
      */
@@ -174,7 +175,7 @@ trait CacheableRepository
 
     /**
      * Get cache time
-     * 
+     *
      * Return minutes: version < 5.8
      * Return seconds: version >= 5.8
      *
@@ -187,7 +188,7 @@ trait CacheableRepository
         /**
          * https://laravel.com/docs/5.8/upgrade#cache-ttl-in-seconds
          */
-        if ($this->versionCompare($this->app->version(), "5.7.*", ">")) {
+        if ($this->versionCompare($this->app->version(), '5.7.*', '>')) {
             return $cacheMinutes * 60;
         }
 

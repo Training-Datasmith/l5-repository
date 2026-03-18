@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 return [
-    'fields_not_accepted' => 'I campi :field non sono accettati nella ricerca'
+    'fields_not_accepted' => 'I campi :field non sono accettati nella ricerca',
 ];

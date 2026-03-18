@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Prettus\Repository\Generators\Migrations;
 
 use Illuminate\Contracts\Support\Arrayable;
@@ -11,14 +14,12 @@ use Illuminate\Support\Arr;
  */
 class RulesParser implements Arrayable
 {
-
     /**
      * The set of rules.
      *
      * @var string
      */
     protected $rules;
-
 
     /**
      * Create new instance.
@@ -85,7 +86,6 @@ class RulesParser implements Arrayable
             return $value;
         });
     }
-
 
     /**
      * Get column attributes.

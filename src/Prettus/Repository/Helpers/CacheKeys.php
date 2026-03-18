@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Prettus\Repository\Helpers;
 
 /**
@@ -9,11 +11,10 @@ namespace Prettus\Repository\Helpers;
  */
 class CacheKeys
 {
-
     /**
      * @var string
      */
-    protected static $storeFile = "repository-cache-keys.json";
+    protected static $storeFile = 'repository-cache-keys.json';
 
     /**
      * @var array
@@ -63,7 +64,7 @@ class CacheKeys
      */
     public static function getFileKeys()
     {
-        return storage_path("framework/cache/" . self::$storeFile);
+        return storage_path('framework/cache/' . self::$storeFile);
     }
 
     /**
@@ -99,11 +100,11 @@ class CacheKeys
      */
     public static function __callStatic(string $method, array $parameters)
     {
-        $instance = new static;
+        $instance = new static();
 
         return call_user_func_array([
             $instance,
-            $method
+            $method,
         ], $parameters);
     }
 
@@ -115,11 +116,11 @@ class CacheKeys
      */
     public function __call(string $method, array $parameters)
     {
-        $instance = new static;
+        $instance = new static();
 
         return call_user_func_array([
             $instance,
-            $method
+            $method,
         ], $parameters);
     }
 }

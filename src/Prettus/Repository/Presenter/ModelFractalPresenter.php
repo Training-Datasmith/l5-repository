@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Prettus\Repository\Presenter;
 
 use Exception;
@@ -11,7 +14,6 @@ use Prettus\Repository\Transformer\ModelTransformer;
  */
 class ModelFractalPresenter extends FractalPresenter
 {
-
     /**
      * Transformer
      *

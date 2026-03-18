@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Prettus\Repository\Exceptions;
 
 use Exception;
@@ -10,5 +13,4 @@ use Exception;
  */
 class RepositoryException extends Exception
 {
-
 }

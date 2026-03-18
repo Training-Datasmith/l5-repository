@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Prettus\Repository\Generators\Commands;
 
 use Illuminate\Console\Command;
@@ -13,7 +16,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class EntityCommand extends Command
 {
-
     /**
      * The name of command.
      *
@@ -38,7 +40,8 @@ class EntityCommand extends Command
      *
      * @see fire()
      */
-    public function handle(): void{
+    public function handle(): void
+    {
         $this->laravel->call([$this, 'fire'], func_get_args());
     }
 
@@ -71,11 +74,11 @@ class EntityCommand extends Command
         if ($this->confirm('Would you like to create a Controller? [y|N]')) {
 
             $resource_args = [
-                'name'    => $this->argument('name')
+                'name'    => $this->argument('name'),
             ];
 
             // Generate a controller resource
-            $controller_command = ((float) app()->version() >= 5.5  ? 'make:rest-controller' : 'make:resource');
+            $controller_command = ((float) app()->version() >= 5.5 ? 'make:rest-controller' : 'make:resource');
             $this->call($controller_command, $resource_args);
         }
 
@@ -84,15 +87,14 @@ class EntityCommand extends Command
             '--fillable'  => $this->option('fillable'),
             '--rules'     => $this->option('rules'),
             '--validator' => $validator,
-            '--force'     => $this->option('force')
+            '--force'     => $this->option('force'),
         ]);
 
         $this->call('make:bindings', [
             'name'    => $this->argument('name'),
-            '--force' => $this->option('force')
+            '--force' => $this->option('force'),
         ]);
     }
-
 
     /**
      * The array of command arguments.
@@ -106,11 +108,10 @@ class EntityCommand extends Command
                 'name',
                 InputArgument::REQUIRED,
                 'The name of class being generated.',
-                null
+                null,
             ],
         ];
     }
-
 
     /**
      * The array of command options.
@@ -125,29 +126,29 @@ class EntityCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'The fillable attributes.',
-                null
+                null,
             ],
             [
                 'rules',
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'The rules of validation attributes.',
-                null
+                null,
             ],
             [
                 'validator',
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'Adds validator reference to the repository.',
-                null
+                null,
             ],
             [
                 'force',
                 'f',
                 InputOption::VALUE_NONE,
                 'Force the creation if file already exists.',
-                null
-            ]
+                null,
+            ],
         ];
     }
 }

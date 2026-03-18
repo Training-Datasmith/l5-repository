@@ -1,8 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Prettus\Repository\Generators\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
 use Prettus\Repository\Generators\FileAlreadyExistsException;
 use Prettus\Repository\Generators\ValidatorGenerator;
 use Symfony\Component\Console\Input\InputArgument;
@@ -14,7 +16,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class ValidatorCommand extends Command
 {
-
     /**
      * The name of command.
      *
@@ -36,13 +37,13 @@ class ValidatorCommand extends Command
      */
     protected $type = 'Validator';
 
-
     /**
      * Execute the command.
      *
      * @see fire()
      */
-    public function handle(): void{
+    public function handle(): void
+    {
         $this->laravel->call([$this, 'fire'], func_get_args());
     }
 
@@ -59,14 +60,13 @@ class ValidatorCommand extends Command
                 'rules' => $this->option('rules'),
                 'force' => $this->option('force'),
             ]))->run();
-            $this->info("Validator created successfully.");
+            $this->info('Validator created successfully.');
         } catch (FileAlreadyExistsException $e) {
             $this->error($this->type . ' already exists!');
 
             return false;
         }
     }
-
 
     /**
      * The array of command arguments.
@@ -80,11 +80,10 @@ class ValidatorCommand extends Command
                 'name',
                 InputArgument::REQUIRED,
                 'The name of model for which the validator is being generated.',
-                null
+                null,
             ],
         ];
     }
-
 
     /**
      * The array of command options.
@@ -99,14 +98,14 @@ class ValidatorCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'The rules of validation attributes.',
-                null
+                null,
             ],
             [
                 'force',
                 'f',
                 InputOption::VALUE_NONE,
                 'Force the creation if file already exists.',
-                null
+                null,
             ],
         ];
     }

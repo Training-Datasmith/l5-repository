@@ -1,8 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Prettus\Repository\Contracts;
 
 use Illuminate\Support\Collection;
-
 
 /**
  * Interface RepositoryCriteriaInterface
@@ -11,7 +13,6 @@ use Illuminate\Support\Collection;
  */
 interface RepositoryCriteriaInterface
 {
-
     /**
      * Push Criteria for filter the query
      *

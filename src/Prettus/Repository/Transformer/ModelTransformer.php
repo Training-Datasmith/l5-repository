@@ -1,4 +1,8 @@
-<?php namespace Prettus\Repository\Transformer;
+<?php
+
+declare(strict_types=1);
+
+namespace Prettus\Repository\Transformer;
 
 use League\Fractal\TransformerAbstract;
 use Prettus\Repository\Contracts\Transformable;
