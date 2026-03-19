@@ -48,6 +48,8 @@ class RequestCriteria implements CriteriaInterface
         $withCount = $this->request->get(config('repository.criteria.params.withCount', 'withCount'), null);
         $searchJoin = $this->request->get(config('repository.criteria.params.searchJoin', 'searchJoin'), null);
         $sortedBy = !empty($sortedBy) ? $sortedBy : 'asc';
+        // Restrict sort direction to safe values to prevent SQL injection via the direction token.
+        $sortedBy = in_array(strtolower($sortedBy), ['asc', 'desc'], true) ? strtolower($sortedBy) : 'asc';
 
         if ($search && is_array($fieldsSearchable) && count($fieldsSearchable)) {
 
@@ -184,6 +186,21 @@ class RequestCriteria implements CriteriaInterface
     }
 
     /**
+     * Validate that a table or column identifier contains only safe characters.
+     *
+     * Allows alphanumeric characters, underscores, hyphens, and dots (for
+     * table.column notation). Rejects any input that could be used to inject
+     * raw SQL tokens into a leftJoin() or orderBy() call.
+     *
+     * @param  string  $identifier
+     * @return bool
+     */
+    protected function isValidIdentifier(string $identifier): bool
+    {
+        return (bool) preg_match('/^[A-Za-z0-9_.\-]+$/', $identifier);
+    }
+
+    /**
      * @param $model
      * @param $orderBy
      * @param $sortedBy
@@ -191,6 +208,9 @@ class RequestCriteria implements CriteriaInterface
      */
     protected function parserFieldsOrderBy($model, $orderBy, $sortedBy)
     {
+        // Sanitize sort direction to asc/desc only.
+        $sortedBy = in_array(strtolower((string) $sortedBy), ['asc', 'desc'], true) ? strtolower($sortedBy) : 'asc';
+
         $split = explode('|', $orderBy);
         if (count($split) > 1) {
             /*
@@ -227,11 +247,25 @@ class RequestCriteria implements CriteriaInterface
                 $keyName = $table.'.'.$prefix.'_id';
             }
 
+            // Validate table and column identifiers before interpolating them into SQL.
+            // Laravel's leftJoin() and orderBy() do not quote bare string arguments, so
+            // an attacker-supplied value like "evil_table; DROP TABLE users--" would be
+            // executed verbatim. Allow only safe identifier characters.
+            if (!$this->isValidIdentifier($sortTable) || !$this->isValidIdentifier($sortColumn)) {
+                return $model;
+            }
+
             return $model
                 ->leftJoin($sortTable, $keyName, '=', $sortTable.$localKey)
                 ->orderBy($sortColumn, $sortedBy)
                 ->addSelect($table.'.*');
         }
+
+        // Validate the plain orderBy column name as well.
+        if (!$this->isValidIdentifier($orderBy)) {
+            return $model;
+        }
+
         return $model->orderBy($orderBy, $sortedBy);
     }
 
