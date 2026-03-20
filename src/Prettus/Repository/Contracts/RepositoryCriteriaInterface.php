@@ -1,17 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Prettus\Repository\Contracts;
 
 use Illuminate\Support\Collection;
-
 /**
  * Interface RepositoryCriteriaInterface
  * @package Prettus\Repository\Contracts
  * @author Anderson Andrade <contato@andersonandra.de>
  */
-interface RepositoryCriteriaInterface
+interface Repository_Criteria_Interface
 {
     /**
      * Push Criteria for filter the query
@@ -20,8 +18,7 @@ interface RepositoryCriteriaInterface
      *
      * @return $this
      */
-    public function pushCriteria($criteria);
-
+    public function push_criteria($criteria);
     /**
      * Pop Criteria
      *
@@ -29,23 +26,20 @@ interface RepositoryCriteriaInterface
      *
      * @return $this
      */
-    public function popCriteria($criteria);
-
+    public function pop_criteria($criteria);
     /**
      * Get Collection of Criteria
      *
      * @return Collection
      */
-    public function getCriteria();
-
+    public function get_criteria();
     /**
      * Find data by Criteria
      *
      *
      * @return mixed
      */
-    public function getByCriteria(CriteriaInterface $criteria);
-
+    public function get_by_criteria(Criteria_Interface $criteria);
     /**
      * Skip Criteria
      *
@@ -53,12 +47,11 @@ interface RepositoryCriteriaInterface
      *
      * @return $this
      */
-    public function skipCriteria($status = true);
-
+    public function skip_criteria($status = true);
     /**
      * Reset all Criterias
      *
      * @return $this
      */
-    public function resetCriteria();
+    public function reset_criteria();
 }

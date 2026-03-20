@@ -1,17 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Prettus\Repository\Generators;
 
-use Prettus\Repository\Generators\Migrations\SchemaParser;
-
+use Prettus\Repository\Generators\Migrations\Schema_Parser;
 /**
  * Class RepositoryInterfaceGenerator
  * @package Prettus\Repository\Generators
  * @author Anderson Andrade <contato@andersonandra.de>
  */
-class RepositoryInterfaceGenerator extends Generator
+class Repository_Interface_Generator extends Generator
 {
     /**
      * Get stub name.
@@ -19,73 +17,62 @@ class RepositoryInterfaceGenerator extends Generator
      * @var string
      */
     protected $stub = 'repository/interface';
-
     /**
      * Get root namespace.
      */
-    public function getRootNamespace(): string
+    public function get_root_namespace(): string
     {
-        return parent::getRootNamespace() . parent::getConfigGeneratorClassPath($this->getPathConfigNode());
+        return parent::get_root_namespace() . parent::get_config_generator_class_path($this->get_path_config_node());
     }
-
     /**
      * Get generator path config node.
      */
-    public function getPathConfigNode(): string
+    public function get_path_config_node(): string
     {
         return 'interfaces';
     }
-
     /**
      * Get destination path for generated file.
      */
-    public function getPath(): string
+    public function get_path(): string
     {
-        return $this->getBasePath() . '/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '/' . $this->getName() . 'Repository.php';
+        return $this->get_base_path() . '/' . parent::get_config_generator_class_path($this->get_path_config_node(), true) . '/' . $this->get_name() . 'Repository.php';
     }
-
     /**
      * Get base path of destination file.
      *
      * @return string
      */
-    public function getBasePath()
+    public function get_base_path()
     {
         return config('repository.generator.basePath', app()->path());
     }
-
     /**
      * Get array replacements.
      */
-    public function getReplacements(): array
+    public function get_replacements(): array
     {
-        return array_merge(parent::getReplacements(), [
-            'fillable' => $this->getFillable(),
-        ]);
+        return array_merge(parent::get_replacements(), ['fillable' => $this->get_fillable()]);
     }
-
     /**
      * Get the fillable attributes.
      */
-    public function getFillable(): string
+    public function get_fillable(): string
     {
         if (!$this->fillable) {
             return '[]';
         }
         $results = '[' . PHP_EOL;
-
-        foreach ($this->getSchemaParser()->toArray() as $column => $value) {
+        foreach ($this->get_schema_parser()->to_array() as $column => $value) {
             $results .= "\t\t'{$column}'," . PHP_EOL;
         }
-
         return $results . "\t" . ']';
     }
-
     /**
      * Get schema parser.
      */
-    public function getSchemaParser(): \Prettus\Repository\Generators\Migrations\SchemaParser
+    public function get_schema_parser(): \Prettus\Repository\Generators\Migrations\Schema_Parser
     {
-        return new SchemaParser($this->fillable);
+        return new Schema_Parser($this->fillable);
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Prettus\Repository\Contracts;
 
 /**
@@ -9,7 +8,7 @@ namespace Prettus\Repository\Contracts;
  * @package Prettus\Repository\Contracts
  * @author Anderson Andrade <contato@andersonandra.de>
  */
-interface CriteriaInterface
+interface Criteria_Interface
 {
     /**
      * Apply criteria in query repository
@@ -18,5 +17,5 @@ interface CriteriaInterface
      *
      * @return mixed
      */
-    public function apply($model, RepositoryInterface $repository);
+    public function apply($model, Repository_Interface $repository);
 }

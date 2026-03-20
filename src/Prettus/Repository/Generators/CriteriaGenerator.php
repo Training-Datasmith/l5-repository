@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Prettus\Repository\Generators;
 
 /**
@@ -9,7 +8,7 @@ namespace Prettus\Repository\Generators;
  * @package Prettus\Repository\Generators
  * @author Anderson Andrade <contato@andersonandra.de>
  */
-class CriteriaGenerator extends Generator
+class Criteria_Generator extends Generator
 {
     /**
      * Get stub name.
@@ -17,37 +16,33 @@ class CriteriaGenerator extends Generator
      * @var string
      */
     protected $stub = 'criteria/criteria';
-
     /**
      * Get root namespace.
      */
-    public function getRootNamespace(): string
+    public function get_root_namespace(): string
     {
-        return parent::getRootNamespace() . parent::getConfigGeneratorClassPath($this->getPathConfigNode());
+        return parent::get_root_namespace() . parent::get_config_generator_class_path($this->get_path_config_node());
     }
-
     /**
      * Get generator path config node.
      */
-    public function getPathConfigNode(): string
+    public function get_path_config_node(): string
     {
         return 'criteria';
     }
-
     /**
      * Get destination path for generated file.
      */
-    public function getPath(): string
+    public function get_path(): string
     {
-        return $this->getBasePath() . '/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '/' . $this->getName() . 'Criteria.php';
+        return $this->get_base_path() . '/' . parent::get_config_generator_class_path($this->get_path_config_node(), true) . '/' . $this->get_name() . 'Criteria.php';
     }
-
     /**
      * Get base path of destination file.
      *
      * @return string
      */
-    public function getBasePath()
+    public function get_base_path()
     {
         return config('repository.generator.basePath', app()->path());
     }

@@ -1,26 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Prettus\Repository\Generators\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Prettus\Repository\Generators\FileAlreadyExistsException;
-use Prettus\Repository\Generators\MigrationGenerator;
-use Prettus\Repository\Generators\ModelGenerator;
-use Prettus\Repository\Generators\RepositoryEloquentGenerator;
-use Prettus\Repository\Generators\RepositoryInterfaceGenerator;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
-
+use Prettus\Repository\Generators\File_Already_Exists_Exception;
+use Prettus\Repository\Generators\Migration_Generator;
+use Prettus\Repository\Generators\Model_Generator;
+use Prettus\Repository\Generators\Repository_Eloquent_Generator;
+use Prettus\Repository\Generators\Repository_Interface_Generator;
+use Symfony\Component\Console\Input\Input_Argument;
+use Symfony\Component\Console\Input\Input_Option;
 /**
  * Class RepositoryCommand
  * @package Prettus\Repository\Generators\Commands
  * @author Anderson Andrade <contato@andersonandra.de>
  */
-class RepositoryCommand extends Command
+class Repository_Command extends Command
 {
     /**
      * The name of command.
@@ -28,26 +26,22 @@ class RepositoryCommand extends Command
      * @var string
      */
     protected $name = 'make:repository';
-
     /**
      * The description of command.
      *
      * @var string
      */
     protected $description = 'Create a new repository.';
-
     /**
      * The type of class being generated.
      *
      * @var string
      */
     protected $type = 'Repository';
-
     /**
      * @var Collection
      */
     protected $generators;
-
     /**
      * Execute the command.
      *
@@ -57,7 +51,6 @@ class RepositoryCommand extends Command
     {
         $this->laravel->call([$this, 'fire'], func_get_args());
     }
-
     /**
      * Execute the command.
      *
@@ -66,125 +59,44 @@ class RepositoryCommand extends Command
     public function fire()
     {
         $this->generators = new Collection();
-
-        $migrationGenerator = new MigrationGenerator([
-            'name'   => 'create_' . Str::snake(Str::plural($this->argument('name'))) . '_table',
-            'fields' => $this->option('fillable'),
-            'force'  => $this->option('force'),
-        ]);
-
+        $migration_generator = new Migration_Generator(['name' => 'create_' . Str::snake(Str::plural($this->argument('name'))) . '_table', 'fields' => $this->option('fillable'), 'force' => $this->option('force')]);
         if (!$this->option('skip-migration')) {
-            $this->generators->push($migrationGenerator);
+            $this->generators->push($migration_generator);
         }
-
-        $modelGenerator = new ModelGenerator([
-            'name'     => $this->argument('name'),
-            'fillable' => $this->option('fillable'),
-            'force'    => $this->option('force'),
-        ]);
-
+        $model_generator = new Model_Generator(['name' => $this->argument('name'), 'fillable' => $this->option('fillable'), 'force' => $this->option('force')]);
         if (!$this->option('skip-model')) {
-            $this->generators->push($modelGenerator);
+            $this->generators->push($model_generator);
         }
-
-        $this->generators->push(new RepositoryInterfaceGenerator([
-            'name'  => $this->argument('name'),
-            'force' => $this->option('force'),
-        ]));
-
+        $this->generators->push(new Repository_Interface_Generator(['name' => $this->argument('name'), 'force' => $this->option('force')]));
         foreach ($this->generators as $generator) {
             $generator->run();
         }
-
-        $model = $modelGenerator->getRootNamespace() . '\\' . $modelGenerator->getName();
-        $model = str_replace([
-            '\\',
-            '/',
-        ], '\\', $model);
-
+        $model = $model_generator->get_root_namespace() . '\\' . $model_generator->get_name();
+        $model = str_replace(['\\', '/'], '\\', $model);
         try {
-            (new RepositoryEloquentGenerator([
-                'name'      => $this->argument('name'),
-                'rules'     => $this->option('rules'),
-                'validator' => $this->option('validator'),
-                'force'     => $this->option('force'),
-                'model'     => $model,
-            ]))->run();
+            (new Repository_Eloquent_Generator(['name' => $this->argument('name'), 'rules' => $this->option('rules'), 'validator' => $this->option('validator'), 'force' => $this->option('force'), 'model' => $model]))->run();
             $this->info('Repository created successfully.');
-        } catch (FileAlreadyExistsException $e) {
+        } catch (File_Already_Exists_Exception $e) {
             $this->error($this->type . ' already exists!');
-
             return false;
         }
     }
-
     /**
      * The array of command arguments.
      *
      * @return array
      */
-    public function getArguments()
+    public function get_arguments()
     {
-        return [
-            [
-                'name',
-                InputArgument::REQUIRED,
-                'The name of class being generated.',
-                null,
-            ],
-        ];
+        return [['name', Input_Argument::REQUIRED, 'The name of class being generated.', null]];
     }
-
     /**
      * The array of command options.
      *
      * @return array
      */
-    public function getOptions()
+    public function get_options()
     {
-        return [
-            [
-                'fillable',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'The fillable attributes.',
-                null,
-            ],
-            [
-                'rules',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'The rules of validation attributes.',
-                null,
-            ],
-            [
-                'validator',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'Adds validator reference to the repository.',
-                null,
-            ],
-            [
-                'force',
-                'f',
-                InputOption::VALUE_NONE,
-                'Force the creation if file already exists.',
-                null,
-            ],
-            [
-                'skip-migration',
-                null,
-                InputOption::VALUE_NONE,
-                'Skip the creation of a migration file.',
-                null,
-            ],
-            [
-                'skip-model',
-                null,
-                InputOption::VALUE_NONE,
-                'Skip the creation of a model.',
-                null,
-            ],
-        ];
+        return [['fillable', null, Input_Option::VALUE_OPTIONAL, 'The fillable attributes.', null], ['rules', null, Input_Option::VALUE_OPTIONAL, 'The rules of validation attributes.', null], ['validator', null, Input_Option::VALUE_OPTIONAL, 'Adds validator reference to the repository.', null], ['force', 'f', Input_Option::VALUE_NONE, 'Force the creation if file already exists.', null], ['skip-migration', null, Input_Option::VALUE_NONE, 'Skip the creation of a migration file.', null], ['skip-model', null, Input_Option::VALUE_NONE, 'Skip the creation of a model.', null]];
     }
 }

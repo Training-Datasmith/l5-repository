@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Prettus\Repository\Contracts;
 
 /**
@@ -14,8 +13,7 @@ interface Presentable
     /**
      * @return mixed
      */
-    public function setPresenter(PresenterInterface $presenter);
-
+    public function set_presenter(Presenter_Interface $presenter);
     /**
      * @return mixed
      */

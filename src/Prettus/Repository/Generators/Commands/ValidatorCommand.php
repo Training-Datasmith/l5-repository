@@ -1,20 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Prettus\Repository\Generators\Commands;
 
 use Illuminate\Console\Command;
-use Prettus\Repository\Generators\FileAlreadyExistsException;
-use Prettus\Repository\Generators\ValidatorGenerator;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
-
+use Prettus\Repository\Generators\File_Already_Exists_Exception;
+use Prettus\Repository\Generators\Validator_Generator;
+use Symfony\Component\Console\Input\Input_Argument;
+use Symfony\Component\Console\Input\Input_Option;
 /**
  * Class ValidatorCommand
  * @package Prettus\Repository\Generators\Commands
  */
-class ValidatorCommand extends Command
+class Validator_Command extends Command
 {
     /**
      * The name of command.
@@ -22,21 +20,18 @@ class ValidatorCommand extends Command
      * @var string
      */
     protected $name = 'make:validator';
-
     /**
      * The description of command.
      *
      * @var string
      */
     protected $description = 'Create a new validator.';
-
     /**
      * The type of class being generated.
      *
      * @var string
      */
     protected $type = 'Validator';
-
     /**
      * Execute the command.
      *
@@ -46,7 +41,6 @@ class ValidatorCommand extends Command
     {
         $this->laravel->call([$this, 'fire'], func_get_args());
     }
-
     /**
      * Execute the command.
      *
@@ -55,58 +49,29 @@ class ValidatorCommand extends Command
     public function fire()
     {
         try {
-            (new ValidatorGenerator([
-                'name' => $this->argument('name'),
-                'rules' => $this->option('rules'),
-                'force' => $this->option('force'),
-            ]))->run();
+            (new Validator_Generator(['name' => $this->argument('name'), 'rules' => $this->option('rules'), 'force' => $this->option('force')]))->run();
             $this->info('Validator created successfully.');
-        } catch (FileAlreadyExistsException $e) {
+        } catch (File_Already_Exists_Exception $e) {
             $this->error($this->type . ' already exists!');
-
             return false;
         }
     }
-
     /**
      * The array of command arguments.
      *
      * @return array
      */
-    public function getArguments()
+    public function get_arguments()
     {
-        return [
-            [
-                'name',
-                InputArgument::REQUIRED,
-                'The name of model for which the validator is being generated.',
-                null,
-            ],
-        ];
+        return [['name', Input_Argument::REQUIRED, 'The name of model for which the validator is being generated.', null]];
     }
-
     /**
      * The array of command options.
      *
      * @return array
      */
-    public function getOptions()
+    public function get_options()
     {
-        return [
-            [
-                'rules',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'The rules of validation attributes.',
-                null,
-            ],
-            [
-                'force',
-                'f',
-                InputOption::VALUE_NONE,
-                'Force the creation if file already exists.',
-                null,
-            ],
-        ];
+        return [['rules', null, Input_Option::VALUE_OPTIONAL, 'The rules of validation attributes.', null], ['force', 'f', Input_Option::VALUE_NONE, 'Force the creation if file already exists.', null]];
     }
 }

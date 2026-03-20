@@ -1,18 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Prettus\Repository\Generators;
 
-use Prettus\Repository\Generators\Migrations\RulesParser;
-use Prettus\Repository\Generators\Migrations\SchemaParser;
-
+use Prettus\Repository\Generators\Migrations\Rules_Parser;
+use Prettus\Repository\Generators\Migrations\Schema_Parser;
 /**
  * Class ValidatorGenerator
  * @package Prettus\Repository\Generators
  * @author Anderson Andrade <contato@andersonandra.de>
  */
-class ValidatorGenerator extends Generator
+class Validator_Generator extends Generator
 {
     /**
      * Get stub name.
@@ -20,76 +18,64 @@ class ValidatorGenerator extends Generator
      * @var string
      */
     protected $stub = 'validator/validator';
-
     /**
      * Get root namespace.
      */
-    public function getRootNamespace(): string
+    public function get_root_namespace(): string
     {
-        return parent::getRootNamespace() . parent::getConfigGeneratorClassPath($this->getPathConfigNode());
+        return parent::get_root_namespace() . parent::get_config_generator_class_path($this->get_path_config_node());
     }
-
     /**
      * Get generator path config node.
      */
-    public function getPathConfigNode(): string
+    public function get_path_config_node(): string
     {
         return 'validators';
     }
-
     /**
      * Get destination path for generated file.
      */
-    public function getPath(): string
+    public function get_path(): string
     {
-        return $this->getBasePath() . '/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '/' . $this->getName() . 'Validator.php';
+        return $this->get_base_path() . '/' . parent::get_config_generator_class_path($this->get_path_config_node(), true) . '/' . $this->get_name() . 'Validator.php';
     }
-
     /**
      * Get base path of destination file.
      *
      * @return string
      */
-    public function getBasePath()
+    public function get_base_path()
     {
         return config('repository.generator.basePath', app()->path());
     }
-
     /**
      * Get array replacements.
      */
-    public function getReplacements(): array
+    public function get_replacements(): array
     {
-
-        return array_merge(parent::getReplacements(), [
-            'rules' => $this->getRules(),
-        ]);
+        return array_merge(parent::get_replacements(), ['rules' => $this->get_rules()]);
     }
-
     /**
      * Get the rules.
      */
-    public function getRules(): string
+    public function get_rules(): string
     {
         if (!$this->rules) {
             return '[]';
         }
         $results = '[' . PHP_EOL;
-
-        foreach ($this->getSchemaParser()->toArray() as $column => $value) {
+        foreach ($this->get_schema_parser()->to_array() as $column => $value) {
             $results .= "\t\t'{$column}'\t=>'\t{$value}'," . PHP_EOL;
         }
-
         return $results . "\t" . ']';
     }
-
     /**
      * Get schema parser.
      *
      * @return SchemaParser
      */
-    public function getSchemaParser(): \Prettus\Repository\Generators\Migrations\RulesParser
+    public function get_schema_parser(): \Prettus\Repository\Generators\Migrations\Rules_Parser
     {
-        return new RulesParser($this->rules);
+        return new Rules_Parser($this->rules);
     }
 }

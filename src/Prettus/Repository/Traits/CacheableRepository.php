@@ -1,54 +1,47 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Prettus\Repository\Traits;
 
 use Exception;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
-use Prettus\Repository\Contracts\CriteriaInterface;
-use Prettus\Repository\Helpers\CacheKeys;
-use ReflectionObject;
-
+use Prettus\Repository\Contracts\Criteria_Interface;
+use Prettus\Repository\Helpers\Cache_Keys;
+use Reflection_Object;
 /**
  * Class CacheableRepository
  * @package Prettus\Repository\Traits
  * @author Anderson Andrade <contato@andersonandra.de>
  */
-trait CacheableRepository
+trait Cacheable_Repository
 {
     /**
      * @var CacheRepository
      */
-    protected $cacheRepository;
-
+    protected $cache_repository;
     /**
      * Set Cache Repository
      *
      *
      * @return $this
      */
-    public function setCacheRepository(CacheRepository $repository)
+    public function set_cache_repository(Cache_Repository $repository)
     {
-        $this->cacheRepository = $repository;
-
+        $this->cache_repository = $repository;
         return $this;
     }
-
     /**
      * Return instance of Cache Repository
      *
      * @return CacheRepository
      */
-    public function getCacheRepository()
+    public function get_cache_repository()
     {
-        if (is_null($this->cacheRepository)) {
-            $this->cacheRepository = app(config('repository.cache.repository', 'cache'));
+        if (is_null($this->cache_repository)) {
+            $this->cache_repository = app(config('repository.cache.repository', 'cache'));
         }
-
-        return $this->cacheRepository;
+        return $this->cache_repository;
     }
-
     /**
      * Skip Cache
      *
@@ -56,94 +49,76 @@ trait CacheableRepository
      *
      * @return $this
      */
-    public function skipCache($status = true)
+    public function skip_cache($status = true)
     {
-        $this->cacheSkip = $status;
-
+        $this->cache_skip = $status;
         return $this;
     }
-
     /**
      * @return bool
      */
-    public function isSkippedCache()
+    public function is_skipped_cache()
     {
-        $skipped = $this->cacheSkip ?? false;
+        $skipped = $this->cache_skip ?? false;
         $request = app('Illuminate\Http\Request');
-        $skipCacheParam = config('repository.cache.params.skipCache', 'skipCache');
-
-        if ($request->has($skipCacheParam) && $request->get($skipCacheParam)) {
+        $skip_cache_param = config('repository.cache.params.skipCache', 'skipCache');
+        if ($request->has($skip_cache_param) && $request->get($skip_cache_param)) {
             return true;
         }
-
         return $skipped;
     }
-
     /**
      * @param $method
      *
      * @return bool
      */
-    protected function allowedCache($method)
+    protected function allowed_cache($method)
     {
-        $cacheEnabled = config('repository.cache.enabled', true);
-
-        if (!$cacheEnabled) {
+        $cache_enabled = config('repository.cache.enabled', true);
+        if (!$cache_enabled) {
             return false;
         }
-
-        $cacheOnly = $this->cacheOnly ?? config('repository.cache.allowed.only', null);
-        $cacheExcept = $this->cacheExcept ?? config('repository.cache.allowed.except', null);
-
-        if (is_array($cacheOnly)) {
-            return in_array($method, $cacheOnly);
+        $cache_only = $this->cache_only ?? config('repository.cache.allowed.only', null);
+        $cache_except = $this->cache_except ?? config('repository.cache.allowed.except', null);
+        if (is_array($cache_only)) {
+            return in_array($method, $cache_only);
         }
-
-        if (is_array($cacheExcept)) {
-            return !in_array($method, $cacheExcept);
+        if (is_array($cache_except)) {
+            return !in_array($method, $cache_except);
         }
-
-        if (is_null($cacheOnly) && is_null($cacheExcept)) {
+        if (is_null($cache_only) && is_null($cache_except)) {
             return true;
         }
-
         return false;
     }
-
     /**
      * Get Cache key for the method
      *
      * @param $method
      * @param $args
      */
-    public function getCacheKey($method, $args = null): string
+    public function get_cache_key($method, $args = null): string
     {
-
         $request = app('Illuminate\Http\Request');
         $args = serialize($args);
-        $criteria = $this->serializeCriteria();
-        $key = sprintf('%s@%s-%s', static::class, $method, md5($args . $criteria . $request->fullUrl()));
-
-        CacheKeys::putKey(static::class, $key);
-
+        $criteria = $this->serialize_criteria();
+        $key = sprintf('%s@%s-%s', static::class, $method, md5($args . $criteria . $request->full_url()));
+        Cache_Keys::put_key(static::class, $key);
         return $key;
-
     }
-
     /**
      * Serialize the criteria making sure the Closures are taken care of.
      */
-    protected function serializeCriteria(): string
+    protected function serialize_criteria(): string
     {
         try {
-            return serialize($this->getCriteria());
+            return serialize($this->get_criteria());
         } catch (Exception $e) {
-            return serialize($this->getCriteria()->map(function ($criterion) {
-                return $this->serializeCriterion($criterion);
+            return serialize($this->get_criteria()->map(function ($criterion) {
+                return $this->serialize_criterion($criterion);
             }));
         }
     }
-
     /**
      * Serialize single criterion with customized serialization of Closures.
      *
@@ -152,27 +127,21 @@ trait CacheableRepository
      *
      * @throws \Exception
      */
-    protected function serializeCriterion($criterion)
+    protected function serialize_criterion($criterion)
     {
         try {
             serialize($criterion);
-
             return $criterion;
         } catch (Exception $e) {
             // We want to take care of the closure serialization errors,
             // other than that we will simply re-throw the exception.
-            if ($e->getMessage() !== "Serialization of 'Closure' is not allowed") {
+            if ($e->get_message() !== "Serialization of 'Closure' is not allowed") {
                 throw $e;
             }
-
-            $r = new ReflectionObject($criterion);
-
-            return [
-                'hash' => md5((string) $r),
-            ];
+            $r = new Reflection_Object($criterion);
+            return ['hash' => md5((string) $r)];
         }
     }
-
     /**
      * Get cache time
      *
@@ -181,20 +150,17 @@ trait CacheableRepository
      *
      * @return int
      */
-    public function getCacheTime()
+    public function get_cache_time()
     {
-        $cacheMinutes = $this->cacheMinutes ?? config('repository.cache.minutes', 30);
-
+        $cache_minutes = $this->cache_minutes ?? config('repository.cache.minutes', 30);
         /**
          * https://laravel.com/docs/5.8/upgrade#cache-ttl-in-seconds
          */
-        if ($this->versionCompare($this->app->version(), '5.7.*', '>')) {
-            return $cacheMinutes * 60;
+        if ($this->version_compare($this->app->version(), '5.7.*', '>')) {
+            return $cache_minutes * 60;
         }
-
-        return $cacheMinutes;
+        return $cache_minutes;
     }
-
     /**
      * Retrieve all data of repository
      *
@@ -204,21 +170,18 @@ trait CacheableRepository
      */
     public function all($columns = ['*'])
     {
-        if (!$this->allowedCache('all') || $this->isSkippedCache()) {
+        if (!$this->allowed_cache('all') || $this->is_skipped_cache()) {
             return parent::all($columns);
         }
-
-        $key = $this->getCacheKey('all', func_get_args());
-        $time = $this->getCacheTime();
-        $value = $this->getCacheRepository()->remember($key, $time, function () use ($columns) {
+        $key = $this->get_cache_key('all', func_get_args());
+        $time = $this->get_cache_time();
+        $value = $this->get_cache_repository()->remember($key, $time, function () use ($columns) {
             return parent::all($columns);
         });
-
-        $this->resetModel();
-        $this->resetScope();
+        $this->reset_model();
+        $this->reset_scope();
         return $value;
     }
-
     /**
      * Retrieve all data of repository, paginated
      *
@@ -228,22 +191,18 @@ trait CacheableRepository
      */
     public function paginate($limit = null, $columns = ['*'], $method = 'paginate')
     {
-        if (!$this->allowedCache('paginate') || $this->isSkippedCache()) {
+        if (!$this->allowed_cache('paginate') || $this->is_skipped_cache()) {
             return parent::paginate($limit, $columns, $method);
         }
-
-        $key = $this->getCacheKey('paginate', func_get_args());
-
-        $time = $this->getCacheTime();
-        $value = $this->getCacheRepository()->remember($key, $time, function () use ($limit, $columns, $method) {
+        $key = $this->get_cache_key('paginate', func_get_args());
+        $time = $this->get_cache_time();
+        $value = $this->get_cache_repository()->remember($key, $time, function () use ($limit, $columns, $method) {
             return parent::paginate($limit, $columns, $method);
         });
-
-        $this->resetModel();
-        $this->resetScope();
+        $this->reset_model();
+        $this->reset_scope();
         return $value;
     }
-
     /**
      * Find data by id
      *
@@ -254,21 +213,18 @@ trait CacheableRepository
      */
     public function find($id, $columns = ['*'])
     {
-        if (!$this->allowedCache('find') || $this->isSkippedCache()) {
+        if (!$this->allowed_cache('find') || $this->is_skipped_cache()) {
             return parent::find($id, $columns);
         }
-
-        $key = $this->getCacheKey('find', func_get_args());
-        $time = $this->getCacheTime();
-        $value = $this->getCacheRepository()->remember($key, $time, function () use ($id, $columns) {
+        $key = $this->get_cache_key('find', func_get_args());
+        $time = $this->get_cache_time();
+        $value = $this->get_cache_repository()->remember($key, $time, function () use ($id, $columns) {
             return parent::find($id, $columns);
         });
-
-        $this->resetModel();
-        $this->resetScope();
+        $this->reset_model();
+        $this->reset_scope();
         return $value;
     }
-
     /**
      * Find data by field and value
      *
@@ -278,66 +234,58 @@ trait CacheableRepository
      *
      * @return mixed
      */
-    public function findByField($field, $value = null, $columns = ['*'])
+    public function find_by_field($field, $value = null, $columns = ['*'])
     {
-        if (!$this->allowedCache('findByField') || $this->isSkippedCache()) {
-            return parent::findByField($field, $value, $columns);
+        if (!$this->allowed_cache('findByField') || $this->is_skipped_cache()) {
+            return parent::find_by_field($field, $value, $columns);
         }
-
-        $key = $this->getCacheKey('findByField', func_get_args());
-        $time = $this->getCacheTime();
-        $value = $this->getCacheRepository()->remember($key, $time, function () use ($field, $value, $columns) {
-            return parent::findByField($field, $value, $columns);
+        $key = $this->get_cache_key('findByField', func_get_args());
+        $time = $this->get_cache_time();
+        $value = $this->get_cache_repository()->remember($key, $time, function () use ($field, $value, $columns) {
+            return parent::find_by_field($field, $value, $columns);
         });
-
-        $this->resetModel();
-        $this->resetScope();
+        $this->reset_model();
+        $this->reset_scope();
         return $value;
     }
-
     /**
      * Find data by multiple fields
      *
      * @param array $columns
      * @return mixed
      */
-    public function findWhere(array $where, $columns = ['*'])
+    public function find_where(array $where, $columns = ['*'])
     {
-        if (!$this->allowedCache('findWhere') || $this->isSkippedCache()) {
-            return parent::findWhere($where, $columns);
+        if (!$this->allowed_cache('findWhere') || $this->is_skipped_cache()) {
+            return parent::find_where($where, $columns);
         }
-
-        $key = $this->getCacheKey('findWhere', func_get_args());
-        $time = $this->getCacheTime();
-        $value = $this->getCacheRepository()->remember($key, $time, function () use ($where, $columns) {
-            return parent::findWhere($where, $columns);
+        $key = $this->get_cache_key('findWhere', func_get_args());
+        $time = $this->get_cache_time();
+        $value = $this->get_cache_repository()->remember($key, $time, function () use ($where, $columns) {
+            return parent::find_where($where, $columns);
         });
-
-        $this->resetModel();
-        $this->resetScope();
+        $this->reset_model();
+        $this->reset_scope();
         return $value;
     }
-
     /**
      * Find data by Criteria
      *
      *
      * @return mixed
      */
-    public function getByCriteria(CriteriaInterface $criteria)
+    public function get_by_criteria(Criteria_Interface $criteria)
     {
-        if (!$this->allowedCache('getByCriteria') || $this->isSkippedCache()) {
-            return parent::getByCriteria($criteria);
+        if (!$this->allowed_cache('getByCriteria') || $this->is_skipped_cache()) {
+            return parent::get_by_criteria($criteria);
         }
-
-        $key = $this->getCacheKey('getByCriteria', func_get_args());
-        $time = $this->getCacheTime();
-        $value = $this->getCacheRepository()->remember($key, $time, function () use ($criteria) {
-            return parent::getByCriteria($criteria);
+        $key = $this->get_cache_key('getByCriteria', func_get_args());
+        $time = $this->get_cache_time();
+        $value = $this->get_cache_repository()->remember($key, $time, function () use ($criteria) {
+            return parent::get_by_criteria($criteria);
         });
-
-        $this->resetModel();
-        $this->resetScope();
+        $this->reset_model();
+        $this->reset_scope();
         return $value;
     }
 }

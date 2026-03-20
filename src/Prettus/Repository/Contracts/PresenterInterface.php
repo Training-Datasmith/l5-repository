@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Prettus\Repository\Contracts;
 
 /**
@@ -9,7 +8,7 @@ namespace Prettus\Repository\Contracts;
  * @package Prettus\Repository\Contracts
  * @author Anderson Andrade <contato@andersonandra.de>
  */
-interface PresenterInterface
+interface Presenter_Interface
 {
     /**
      * Prepare data to present

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Prettus\Repository\Contracts;
 
 /**
@@ -9,7 +8,7 @@ namespace Prettus\Repository\Contracts;
  * @package Prettus\Repository\Contracts
  * @author Anderson Andrade <contato@andersonandra.de>
  */
-interface RepositoryInterface
+interface Repository_Interface
 {
     /**
      * Retrieve data array for populate field select
@@ -20,7 +19,6 @@ interface RepositoryInterface
      * @return \Illuminate\Support\Collection|array
      */
     public function lists($column, $key = null);
-
     /**
      * Retrieve data array for populate field select
      * Compatible with Laravel 5.3
@@ -30,7 +28,6 @@ interface RepositoryInterface
      * @return \Illuminate\Support\Collection|array
      */
     public function pluck($column, $key = null);
-
     /**
      * Sync relations
      *
@@ -41,7 +38,6 @@ interface RepositoryInterface
      * @return mixed
      */
     public function sync($id, $relation, $attributes, $detaching = true);
-
     /**
      * SyncWithoutDetaching
      *
@@ -50,8 +46,7 @@ interface RepositoryInterface
      * @param $attributes
      * @return mixed
      */
-    public function syncWithoutDetaching($id, $relation, $attributes);
-
+    public function sync_without_detaching($id, $relation, $attributes);
     /**
      * Retrieve all data of repository
      *
@@ -60,7 +55,6 @@ interface RepositoryInterface
      * @return mixed
      */
     public function all($columns = ['*']);
-
     /**
      * Retrieve all data of repository, paginated
      *
@@ -68,15 +62,13 @@ interface RepositoryInterface
      * @return mixed
      */
     public function paginate($limit = null, $columns = ['*']);
-
     /**
      * Retrieve all data of repository, simple paginated
      *
      * @param array $columns
      * @return mixed
      */
-    public function simplePaginate($limit = null, $columns = ['*']);
-
+    public function simple_paginate($limit = null, $columns = ['*']);
     /**
      * Find data by id
      *
@@ -86,7 +78,6 @@ interface RepositoryInterface
      * @return mixed
      */
     public function find($id, $columns = ['*']);
-
     /**
      * Find data by field and value
      *
@@ -96,16 +87,14 @@ interface RepositoryInterface
      *
      * @return mixed
      */
-    public function findByField($field, $value, $columns = ['*']);
-
+    public function find_by_field($field, $value, $columns = ['*']);
     /**
      * Find data by multiple fields
      *
      * @param array $columns
      * @return mixed
      */
-    public function findWhere(array $where, $columns = ['*']);
-
+    public function find_where(array $where, $columns = ['*']);
     /**
      * Find data by multiple values in one field
      *
@@ -113,8 +102,7 @@ interface RepositoryInterface
      * @param array $columns
      * @return mixed
      */
-    public function findWhereIn($field, array $values, $columns = ['*']);
-
+    public function find_where_in($field, array $values, $columns = ['*']);
     /**
      * Find data by excluding multiple values in one field
      *
@@ -122,8 +110,7 @@ interface RepositoryInterface
      * @param array $columns
      * @return mixed
      */
-    public function findWhereNotIn($field, array $values, $columns = ['*']);
-
+    public function find_where_not_in($field, array $values, $columns = ['*']);
     /**
      * Find data by between values in one field
      *
@@ -131,8 +118,7 @@ interface RepositoryInterface
      * @param array $columns
      * @return mixed
      */
-    public function findWhereBetween($field, array $values, $columns = ['*']);
-
+    public function find_where_between($field, array $values, $columns = ['*']);
     /**
      * Save a new entity in repository
      *
@@ -140,7 +126,6 @@ interface RepositoryInterface
      * @return mixed
      */
     public function create(array $attributes);
-
     /**
      * Update a entity in repository by id
      *
@@ -148,7 +133,6 @@ interface RepositoryInterface
      * @return mixed
      */
     public function update(array $attributes, $id);
-
     /**
      * Update or Create an entity in repository
      *
@@ -157,8 +141,7 @@ interface RepositoryInterface
      *
      * @return mixed
      */
-    public function updateOrCreate(array $attributes, array $values = []);
-
+    public function update_or_create(array $attributes, array $values = []);
     /**
      * Delete a entity in repository by id
      *
@@ -167,7 +150,6 @@ interface RepositoryInterface
      * @return int
      */
     public function delete($id);
-
     /**
      * Order collection by a given column
      *
@@ -176,8 +158,7 @@ interface RepositoryInterface
      *
      * @return $this
      */
-    public function orderBy($column, $direction = 'asc');
-
+    public function order_by($column, $direction = 'asc');
     /**
      * Load relations
      *
@@ -186,7 +167,6 @@ interface RepositoryInterface
      * @return $this
      */
     public function with($relations);
-
     /**
      * Load relation with closure
      *
@@ -195,16 +175,14 @@ interface RepositoryInterface
      *
      * @return $this
      */
-    public function whereHas($relation, $closure);
-
+    public function where_has($relation, $closure);
     /**
      * Add subselect queries to count the relations.
      *
      * @param  mixed $relations
      * @return $this
      */
-    public function withCount($relations);
-
+    public function with_count($relations);
     /**
      * Set hidden fields
      *
@@ -212,7 +190,6 @@ interface RepositoryInterface
      * @return $this
      */
     public function hidden(array $fields);
-
     /**
      * Set visible fields
      *
@@ -220,29 +197,25 @@ interface RepositoryInterface
      * @return $this
      */
     public function visible(array $fields);
-
     /**
      * Query Scope
      *
      *
      * @return $this
      */
-    public function scopeQuery(\Closure $scope);
-
+    public function scope_query(\Closure $scope);
     /**
      * Reset Query Scope
      *
      * @return $this
      */
-    public function resetScope();
-
+    public function reset_scope();
     /**
      * Get Searchable Fields
      *
      * @return array
      */
-    public function getFieldsSearchable();
-
+    public function get_fields_searchable();
     /**
      * Set Presenter
      *
@@ -250,8 +223,7 @@ interface RepositoryInterface
      *
      * @return mixed
      */
-    public function setPresenter($presenter);
-
+    public function set_presenter($presenter);
     /**
      * Skip Presenter Wrapper
      *
@@ -259,24 +231,21 @@ interface RepositoryInterface
      *
      * @return $this
      */
-    public function skipPresenter($status = true);
-
+    public function skip_presenter($status = true);
     /**
      * Retrieve first data of repository, or return new Entity
      *
      *
      * @return mixed
      */
-    public function firstOrNew(array $attributes = []);
-
+    public function first_or_new(array $attributes = []);
     /**
      * Retrieve first data of repository, or create new Entity
      *
      *
      * @return mixed
      */
-    public function firstOrCreate(array $attributes = []);
-
+    public function first_or_create(array $attributes = []);
     /**
      * Trigger static method calls to the model
      *
@@ -286,7 +255,6 @@ interface RepositoryInterface
      * @return mixed
      */
     public static function __callStatic($method, $arguments);
-
     /**
      * Trigger method calls to the model
      *

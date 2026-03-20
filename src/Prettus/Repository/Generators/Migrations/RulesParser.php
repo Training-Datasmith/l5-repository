@@ -1,18 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Prettus\Repository\Generators\Migrations;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
-
 /**
  * Class RulesParser
  * @package Prettus\Repository\Generators\Migrations
  * @author Anderson Andrade <contato@andersonandra.de>
  */
-class RulesParser implements Arrayable
+class Rules_Parser implements Arrayable
 {
     /**
      * The set of rules.
@@ -20,7 +18,6 @@ class RulesParser implements Arrayable
      * @var string
      */
     protected $rules;
-
     /**
      * Create new instance.
      *
@@ -30,17 +27,15 @@ class RulesParser implements Arrayable
     {
         $this->rules = $rules;
     }
-
     /**
      * Convert string migration to array.
      *
      * @return array
      */
-    public function toArray()
+    public function to_array()
     {
         return $this->parse($this->rules);
     }
-
     /**
      * Parse a string to array of formatted rules.
      *
@@ -50,29 +45,25 @@ class RulesParser implements Arrayable
     {
         $this->rules = $rules;
         $parsed = [];
-        foreach ($this->getRules() as $rulesArray) {
-            $column = $this->getColumn($rulesArray);
-            $attributes = $this->getAttributes($column, $rulesArray);
+        foreach ($this->get_rules() as $rules_array) {
+            $column = $this->get_column($rules_array);
+            $attributes = $this->get_attributes($column, $rules_array);
             $parsed[$column] = $attributes;
         }
-
         return $parsed;
     }
-
     /**
      * Get array of rules.
      *
      * @return array
      */
-    public function getRules()
+    public function get_rules()
     {
         if (is_null($this->rules)) {
             return [];
         }
-
         return explode(',', str_replace(' ', '', $this->rules));
     }
-
     /**
      * Get column name from rules.
      *
@@ -80,23 +71,20 @@ class RulesParser implements Arrayable
      *
      * @return string
      */
-    public function getColumn($rules)
+    public function get_column($rules)
     {
         return Arr::first(explode('=>', $rules), function ($key, $value) {
             return $value;
         });
     }
-
     /**
      * Get column attributes.
      *
      * @param  string $rules
      * @return array
      */
-    public function getAttributes(string $column, $rules): string
+    public function get_attributes(string $column, $rules): string
     {
-
         return str_replace($column . '=>', '', $rules);
     }
-
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Prettus\Repository\Helpers;
 
 /**
@@ -9,89 +8,73 @@ namespace Prettus\Repository\Helpers;
  * @package Prettus\Repository\Helpers
  * @author Anderson Andrade <contato@andersonandra.de>
  */
-class CacheKeys
+class Cache_Keys
 {
     /**
      * @var string
      */
-    protected static $storeFile = 'repository-cache-keys.json';
-
+    protected static $store_file = 'repository-cache-keys.json';
     /**
      * @var array
      */
     protected static $keys;
-
     /**
      * @param $group
      * @param $key
      */
-    public static function putKey($group, $key): void
+    public static function put_key($group, $key): void
     {
-        self::loadKeys();
-
-        self::$keys[$group] = self::getKeys($group);
-
+        self::load_keys();
+        self::$keys[$group] = self::get_keys($group);
         if (!in_array($key, self::$keys[$group])) {
             self::$keys[$group][] = $key;
         }
-
-        self::storeKeys();
+        self::store_keys();
     }
-
     /**
      * @return array|mixed
      */
-    public static function loadKeys()
+    public static function load_keys()
     {
         if (!is_null(self::$keys) && is_array(self::$keys)) {
             return self::$keys;
         }
-
-        $file = self::getFileKeys();
-
+        $file = self::get_file_keys();
         if (!file_exists($file)) {
-            self::storeKeys();
+            self::store_keys();
         }
-
         $content = file_get_contents($file);
         self::$keys = json_decode($content, true);
-
         return self::$keys;
     }
-
     /**
      * @return string
      */
-    public static function getFileKeys()
+    public static function get_file_keys()
     {
-        return storage_path('framework/cache/' . self::$storeFile);
+        return storage_path('framework/cache/' . self::$store_file);
     }
-
     /**
      * @return int
      */
-    public static function storeKeys()
+    public static function store_keys()
     {
-        $file = self::getFileKeys();
+        $file = self::get_file_keys();
         self::$keys = is_null(self::$keys) ? [] : self::$keys;
         $content = json_encode(self::$keys);
-
         return file_put_contents($file, $content);
     }
-
     /**
      * @param $group
      *
      * @return array|mixed
      */
-    public static function getKeys($group)
+    public static function get_keys($group)
     {
-        self::loadKeys();
+        self::load_keys();
         self::$keys[$group] = self::$keys[$group] ?? [];
-
         return self::$keys[$group];
     }
-
     /**
      * @param $method
      * @param $parameters
@@ -101,13 +84,8 @@ class CacheKeys
     public static function __callStatic(string $method, array $parameters)
     {
         $instance = new static();
-
-        return call_user_func_array([
-            $instance,
-            $method,
-        ], $parameters);
+        return call_user_func_array([$instance, $method], $parameters);
     }
-
     /**
      * @param $method
      * @param $parameters
@@ -117,10 +95,6 @@ class CacheKeys
     public function __call(string $method, array $parameters)
     {
         $instance = new static();
-
-        return call_user_func_array([
-            $instance,
-            $method,
-        ], $parameters);
+        return call_user_func_array([$instance, $method], $parameters);
     }
 }

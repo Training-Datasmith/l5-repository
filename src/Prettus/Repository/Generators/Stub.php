@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Prettus\Repository\Generators;
 
 /**
@@ -16,7 +15,7 @@ class Stub
      *
      * @var null|string
      */
-    protected static $basePath;
+    protected static $base_path;
     /**
      * The stub path.
      *
@@ -29,7 +28,6 @@ class Stub
      * @var array
      */
     protected $replaces = [];
-
     /**
      * The contructor.
      *
@@ -40,7 +38,6 @@ class Stub
         $this->path = $path;
         $this->replaces = $replaces;
     }
-
     /**
      * Create new self instance.
      *
@@ -51,17 +48,15 @@ class Stub
     {
         return new static($path, $replaces);
     }
-
     /**
      * Set base path.
      *
      * @param  string $path
      */
-    public static function setBasePath($path): void
+    public static function set_base_path($path): void
     {
-        static::$basePath = $path;
+        static::$base_path = $path;
     }
-
     /**
      * Set replacements array.
      *
@@ -71,20 +66,17 @@ class Stub
     public function replace(array $replaces = []): self
     {
         $this->replaces = $replaces;
-
         return $this;
     }
-
     /**
      * Get replacements.
      *
      * @return array
      */
-    public function getReplaces()
+    public function get_replaces()
     {
         return $this->replaces;
     }
-
     /**
      * Handle magic method __toString.
      */
@@ -92,7 +84,6 @@ class Stub
     {
         return $this->render();
     }
-
     /**
      * Get stub contents.
      *
@@ -100,41 +91,36 @@ class Stub
      */
     public function render()
     {
-        return $this->getContents();
+        return $this->get_contents();
     }
-
     /**
      * Get stub contents.
      *
      * @return mixed|string
      */
-    public function getContents()
+    public function get_contents()
     {
-        $contents = file_get_contents($this->getPath());
+        $contents = file_get_contents($this->get_path());
         foreach ($this->replaces as $search => $replace) {
             $contents = str_replace('$' . strtoupper($search) . '$', $replace, $contents);
         }
-
         return $contents;
     }
-
     /**
      * Get stub path.
      */
-    public function getPath(): string
+    public function get_path(): string
     {
-        return static::$basePath . $this->path;
+        return static::$base_path . $this->path;
     }
-
     /**
      * Set stub path.
      *
      * @param string $path
      */
-    public function setPath($path): self
+    public function set_path($path): self
     {
         $this->path = $path;
-
         return $this;
     }
 }
